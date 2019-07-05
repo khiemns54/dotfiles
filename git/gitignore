@@ -1,0 +1,7 @@
+vendor/bundle
+config/databar_service_account_key.json
+.tags
+.tags1
+cache
+.byebug_history
+*.swp

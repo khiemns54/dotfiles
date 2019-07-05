@@ -1,0 +1,57 @@
+syntax on
+set nocompatible
+set number
+set shiftwidth=2 softtabstop=2 expandtab
+set autoindent
+set wildmenu
+set backspace=indent,eol,start
+set clipboard+=unnamed
+set tags=.tags;$HOME
+set nowrap
+" let mapleader = '-'
+set autoread
+set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
+set list
+set relativenumber
+
+filetype plugin on
+
+command Reload source ~/.vimrc
+command! MakeTag !ctags -R .
+
+" noremap <Enter> O<ESC>
+noremap <Leader>p "*]p:set nopaste<CR>
+noremap <Leader>y "+y)
+
+inoremap <C-j>  <down>
+inoremap <C-k>  <up>
+inoremap <C-h>  <left>
+iinoremap " ""<left>
+inoremap ' ''<left>
+inoremap ( ()<left>
+inoremap [ []<left>
+inoremap { {}<left>
+inoremap {<CR> {<CR>}<ESC>O
+inoremap {;<CR> {<CR>};<ESC>Onoremap <C-l>  <right>
+
+noremap <Up> <NOP>
+noremap <Down> <NOP>
+noremap <Left> <NOP>
+noremap <Right> <NOP>
+" Switch between tabs
+nnoremap <Leader>1 1gt
+nnoremap <Leader>2 2gt
+nnoremap <Leader>3 3gt
+nnoremap <Leader>4 4gt
+nnoremap <Leader>5 5gt
+nnoremap <Leader>6 6gt
+nnoremap <Leader>7 7gt
+nnoremap <Leader>8 8gt
+nnoremap <Leader>9 9gt
+nnoremap <Leader>; o<ESC>
+
+" preserve yank after paste
+vnoremap p "_dP
+vnoremap <Leader>d "_d
+vnoremap <Leader>dd "_dd
+vnoremap <Leader>D ":D
