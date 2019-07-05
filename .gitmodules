@@ -4,3 +4,12 @@
 [submodule "vim/bundle/vim-plug"]
 	path = vim/bundle/vim-plug
 	url = git@github.com:junegunn/vim-plug.git
+[submodule "tmux/.tmux"]
+	path = tmux/.tmux
+	url = https://github.com/gpakosz/.tmux.git
+[submodule "tmux/presets_tmux"]
+	path = tmux/presets_tmux
+	url = https://github.com/gpakosz/.tmux.git
+[submodule "tmux/plugins/tpm"]
+	path = tmux/plugins/tpm
+	url = git@github.com:tmux-plugins/tpm.git

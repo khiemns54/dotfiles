@@ -21,6 +21,6 @@ export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/opt/openssl/lib/
 export PATH="$HOME/.ndenv/bin:$PATH"
 eval "$(ndenv init -)"
 
-ssh-add ~/.ssh/id_rsa 2> /dev/null
+ss:-add ~/.ssh/id_rsa 2> /dev/null
 
 export LC_ALL=en_US.UTF-8
