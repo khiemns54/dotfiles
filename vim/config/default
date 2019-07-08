@@ -13,6 +13,7 @@ set autoread
 set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
 set list
 set relativenumber
+set visualbell
 
 filetype plugin on
 
@@ -25,6 +26,7 @@ noremap <Leader>y "+y)
 inoremap <C-j>  <down>
 inoremap <C-k>  <up>
 inoremap <C-h>  <left>
+inoremap <C-l>  <right>
 inoremap " ""<left>
 inoremap ' ''<left>
 inoremap ( ()<left>
@@ -32,16 +34,15 @@ inoremap [ []<left>
 inoremap { {}<left>
 inoremap {<CR> {<CR>}<ESC>O
 inoremap {;<CR> {<CR>};<ESC>Onoremap <C-l>  <right>
+inoremap <Up> <NOP>
+inoremap <Down> <NOP>
+inoremap <Left> <NOP>
+inoremap <Right> <NOP>
+
 noremap <Up> <NOP>
 noremap <Down> <NOP>
 noremap <Left> <NOP>
 noremap <Right> <NOP>
-cnoremap <Up> <NOP>
-cnoremap <Down> <NOP>
-cnoremap <Left> <NOP>
-cnoremap <Right> <NOP>
-" Switch between tabs
-" Switch between tabs
 nnoremap <Leader>1 1gt
 nnoremap <Leader>2 2gt
 nnoremap <Leader>3 3gt
@@ -52,6 +53,13 @@ nnoremap <Leader>7 7gt
 nnoremap <Leader>8 8gt
 nnoremap <Leader>9 9gt
 nnoremap <Leader><Leader> o<ESC>
+
+cnoremap <Up> <NOP>
+cnoremap <Down> <NOP>
+cnoremap <Left> <NOP>
+cnoremap <Right> <NOP>
+" Switch between tabs
+" Switch between tabs
 
 " preserve yank after paste
 vnoremap p "_dP

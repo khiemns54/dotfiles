@@ -5,3 +5,5 @@ config/databar_service_account_key.json
 cache
 .byebug_history
 *.swp
+tags
+tags.*

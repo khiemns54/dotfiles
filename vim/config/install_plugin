@@ -31,7 +31,7 @@ call plug#begin()
   Plug 'tpope/vim-rails'
   Plug 'wikitopian/hardmode'
   Plug 'djoshea/vim-autoread'
-  Plug 'universal-ctags/ctags'
+  Plug 'ludovicchabant/vim-gutentags'
 
 call plug#end()
 

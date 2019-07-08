@@ -1,0 +1,36 @@
+#!/bin/zsh
+#
+cwsrb (){
+  BASE_WS="$HOME/workspace/finc"
+  DES="$1"
+  ABS_PATH="$BASE_WS/$DES"
+  MAIN="main"
+
+  if [ ! -d "$ABS_PATH" ]
+  then
+    echo "Folder [$ABS_PATH] does not exist"
+    return 1
+  fi
+
+  if ! ( tmux ls | grep -q "$MAIN" )
+  then
+    echo "Create new $MAIN session"
+    tmux new -s $MAIN -d -c $ABS_PATH -n $DES \; split-window -h -c $DES\;
+  fi
+
+  if ! ( tmux list-windows -t $MAIN | grep -q "$DES" )
+  then
+    echo "Create new windows $DES"
+    tmux new-window -t $MAIN -n $DES -c $ABS_PATH \; split-window  -h -c $DES\;
+  fi
+
+  if [[ "$TMUX" = "" ]]
+  then
+    echo "Tmux: attach session [$MAIN]"
+    tmux attach -t $MAIN\; select-window -t $DES
+  else
+    echo "Tmux: jump to window [$DES]"
+    tmux select-window -t $DES
+  fi
+}
+
