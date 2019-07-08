@@ -1,4 +1,4 @@
-set -o vi
+# set -o vi
 
 git config --global core.excludesfile $DOTFILES/git/gitignore
 alias be="bundle exec"
@@ -22,6 +22,8 @@ export PKG_CONFIG_PATH="/usr/local/opt/zlib/lib/pkgconfig"
 export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
 export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/opt/openssl/lib/
 
+set -o ignoreeof
+
 export PATH="$HOME/.ndenv/bin:$PATH"
 eval "$(ndenv init -)"
 
@@ -43,3 +45,38 @@ if [ ! -L "$HOME/.zshenv" ]
 then
   ln -s $DOTFILES/zsh/zshenv ~/.zshenv
 fi
+
+
+autoload -Uz colors; colors
+autoload -Uz add-zsh-hook
+autoload -Uz terminfo
+
+terminfo_down_sc=$terminfo[cud1]$terminfo[cuu1]$terminfo[sc]$terminfo[cud1]
+left_down_prompt_preexec() {
+    print -rn -- $terminfo[el]
+}
+add-zsh-hook preexec left_down_prompt_preexec
+
+function zle-keymap-select zle-line-init zle-line-finish
+{
+    case $KEYMAP in
+        main|viins)
+            PROMPT_2="$fg[cyan]-- INSERT --$reset_color"
+            ;;
+        vicmd)
+            PROMPT_2="$fg[white]-- NORMAL --$reset_color"
+            ;;
+        vivis|vivli)
+            PROMPT_2="$fg[yellow]-- VISUAL --$reset_color"
+            ;;
+    esac
+
+    PROMPT="%{$terminfo_down_sc$PROMPT_2$terminfo[rc]%}[%(?.%{${fg[green]}%}.%{${fg[red]}%})%n%{${reset_color}%}]%# "
+    zle reset-prompt
+}
+
+zle -N zle-line-init
+zle -N zle-line-finish
+zle -N zle-keymap-select
+zle -N edit-command-line
+bindkey -v

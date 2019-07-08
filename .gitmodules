@@ -13,3 +13,6 @@
 [submodule "tmux/plugins/tpm"]
 	path = tmux/plugins/tpm
 	url = git@github.com:tmux-plugins/tpm.git
+[submodule "zsh/zsh-vimode-visual"]
+	path = zsh/zsh-vimode-visual
+	url = git@github.com:b4b4r07/zsh-vimode-visual.git
