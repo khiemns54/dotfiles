@@ -4,35 +4,43 @@ call plug#begin()
   nmap <C-n> :NERDTreeToggle<CR>
   let NERDTreeIgnore =['\.swp$']
 
-  set pyxversion=3
-  if has('nvim')
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  elseif has('python') && has('pythonx')
-    Plug 'Shougo/deoplete.nvim'
-    Plug 'roxma/nvim-yarp'
-          pythonx import neovim
-    Plug 'roxma/vim-hug-neovim-rpc'
-  endif
-  let g:deoplete#enable_at_startup = 1
-
   Plug 'tpope/vim-surround'
   Plug 'ctrlpvim/ctrlp.vim'
   Plug 'rking/ag.vim'
-  Plug 'sheerun/vim-polyglot'
-  Plug 'dracula/vim'
   Plug 'scrooloose/nerdcommenter'
-  Plug 'bogado/file-line'
-  Plug 'nathanaelkane/vim-indent-guides'
+  let g:NERDSpaceDelims = 1
+  let g:NERDCompactSexyComs = 1
+  let g:NERDDefaultAlign = 'left'
+
+
+  Plug 'Yggdroot/indentLine'
   let g:indent_guides_enable_on_vim_startup = 1
   let g:indent_guides_exclude_filetypes = ['help', 'nerdtree']
   let g:indent_guides_start_level = 2
 
   Plug 'vim-ruby/vim-ruby'
   Plug 'tpope/vim-rails'
-  Plug 'wikitopian/hardmode'
   Plug 'djoshea/vim-autoread'
   Plug 'ludovicchabant/vim-gutentags'
+  let g:gutentags_cache_dir = "/tmp/ctags"
+  Plug 'vim-airline/vim-airline'
+  Plug 'vim-airline/vim-airline-themes'
+  let g:airline_powerline_fonts = 1
+  set laststatus=2
 
+  Plug 'vim-syntastic/syntastic'
+
+  set statusline+=%#warningmsg#
+  set statusline+=%{SyntasticStatuslineFlag()}
+  set statusline+=%*
+
+  let g:syntastic_always_populate_loc_list = 1
+  let g:syntastic_auto_loc_list = 1
+  let g:syntastic_check_on_open = 1
+  let g:syntastic_check_on_wq = 0
+
+  Plug 'airblade/vim-gitgutter'
+  Plug 'tpope/vim-fugitive'
 call plug#end()
 
 colorscheme darkblue

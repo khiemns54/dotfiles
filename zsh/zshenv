@@ -21,7 +21,7 @@ cwsrb (){
   if ! ( tmux list-windows -t $MAIN | grep -q "$DES" )
   then
     echo "Create new windows $DES"
-    tmux new-window -t $MAIN -n $DES -c $ABS_PATH \; split-window  -h -c $DES\;
+    tmux new-window -t $MAIN -n $DES -c $ABS_PATH \; split-window  -h -c $ABS_PATH\;
   fi
 
   if [[ "$TMUX" = "" ]]
