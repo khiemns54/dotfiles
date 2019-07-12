@@ -1,0 +1,7 @@
+export ZSH=$(ls -d ~/.oh-my-zsh)
+ZSH_THEME="refined"
+plugins=(git)
+source $ZSH/oh-my-zsh.sh
+export DOTFILES="$HOME/.dotfiles"
+source $DOTFILES/khiemnsrc
+

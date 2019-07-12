@@ -11,16 +11,18 @@ set nowrap
 let mapleader = 's'
 set autoread
 set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.jpg,*.png
+
 set list
 set relativenumber
 set visualbell
 set hls
 set ignorecase
+set hidden
 
 filetype plugin on
 
 command Reload source ~/.vimrc
-command! MakeTag !ctags -R .
 
 noremap <Leader>p "*]p:set nopaste<CR>
 noremap <Leader>y "+y)
@@ -69,8 +71,11 @@ nnoremap <Leader><Leader> o<ESC>
 nnoremap <Leader>h 0
 nnoremap <Leader>l $
 nnoremap <Leader>f :NERDTreeFind<CR>
-nnoremap <Leader>p :bp<CR>
+nnoremap <Leader>n :bp<CR>
+nnoremap <Leader>d :bd<CR>
+nnoremap <Leader>D :bd!<CR>
 nnoremap <Leader>a =ip<CR>
+nnoremap <Leader>w :w<CR>
 
 nnoremap <Tab>   >>
 nnoremap <S-Tab> <<
@@ -94,4 +99,5 @@ vnoremap p "_dP
 vnoremap <Leader>d "_d
 vnoremap <Leader>dd "_dd
 vnoremap <Leader>D ":D
+
 

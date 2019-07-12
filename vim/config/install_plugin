@@ -1,11 +1,16 @@
 call plug#begin()
 
   Plug 'scrooloose/nerdtree'
-  nmap <C-n> :NERDTreeToggle<CR>
+  nmap <C-n> :NERDTreeToggle<CR>:vertical resize 30<CR>
+  nnoremap <Leader>t :NERDTreeToggle<CR>:vertical resize 30<CR>
   let NERDTreeIgnore =['\.swp$']
 
   Plug 'tpope/vim-surround'
   Plug 'ctrlpvim/ctrlp.vim'
+  nnoremap <Leader>p :CtrlP<CR>
+  nnoremap <Leader>b :CtrlPBuffer<CR>
+  let g:ctrlp_custom_ignore = '\v[\/](node_modules|build|tmp|vendor|log)$'
+
   Plug 'rking/ag.vim'
   Plug 'scrooloose/nerdcommenter'
   let g:NERDSpaceDelims = 1
@@ -41,6 +46,7 @@ call plug#begin()
 
   Plug 'airblade/vim-gitgutter'
   Plug 'tpope/vim-fugitive'
+  Plug 'machakann/vim-highlightedyank'
 call plug#end()
 
 colorscheme darkblue

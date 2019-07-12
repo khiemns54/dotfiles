@@ -16,3 +16,9 @@
 [submodule "zsh/zsh-vimode-visual"]
 	path = zsh/zsh-vimode-visual
 	url = git@github.com:b4b4r07/zsh-vimode-visual.git
+[submodule "fonts"]
+	path = fonts
+	url = https://github.com/powerline/fonts
+[submodule "others/powerline"]
+	path = others/powerline
+	url = https://github.com/powerline/fonts
