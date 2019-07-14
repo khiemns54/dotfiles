@@ -19,6 +19,7 @@ set visualbell
 set hls
 set ignorecase
 set hidden
+runtime macros/matchit.vim
 
 filetype plugin on
 
@@ -92,12 +93,4 @@ cnoremap <Up> <NOP>
 cnoremap <Down> <NOP>
 cnoremap <Left> <NOP>
 cnoremap <Right> <NOP>
-
-" preserve yank after paste
-nnoremap <Leader>x "_x
-vnoremap p "_dP
-vnoremap <Leader>d "_d
-vnoremap <Leader>dd "_dd
-vnoremap <Leader>D ":D
-
 
