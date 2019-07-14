@@ -22,6 +22,8 @@ call plug#begin()
   let g:indent_guides_start_level = 2
 
   Plug 'vim-ruby/vim-ruby'
+  Plug 'kana/vim-textobj-user'
+  Plug 'rhysd/vim-textobj-ruby'
   Plug 'tpope/vim-rails'
   Plug 'djoshea/vim-autoread'
   Plug 'ludovicchabant/vim-gutentags'
