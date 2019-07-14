@@ -21,10 +21,14 @@ call plug#begin()
   let g:indent_guides_exclude_filetypes = ['help', 'nerdtree']
   let g:indent_guides_start_level = 2
 
+" For ruby development
   Plug 'vim-ruby/vim-ruby'
   Plug 'kana/vim-textobj-user'
   Plug 'rhysd/vim-textobj-ruby'
   Plug 'tpope/vim-rails'
+  Plug 'tpope/vim-bundler'
+  Plug 'tpope/vim-rake'
+
   Plug 'djoshea/vim-autoread'
   Plug 'ludovicchabant/vim-gutentags'
   let g:gutentags_cache_dir = "/tmp/ctags"
