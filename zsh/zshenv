@@ -15,13 +15,13 @@ cwsrb (){
   if ! ( tmux ls | grep -q "$MAIN" )
   then
     echo "Create new $MAIN session"
-    tmux new -s $MAIN -d -c $ABS_PATH -n $DES \; split-window -h -c $DES\;
+    tmux new -s $MAIN -d -c $ABS_PATH -n $DES
   fi
 
   if ! ( tmux list-windows -t $MAIN | grep -q "$DES" )
   then
     echo "Create new windows $DES"
-    tmux new-window -t $MAIN -n $DES -c $ABS_PATH \; split-window  -h -c $ABS_PATH\;
+    tmux new-window -t $MAIN -n $DES -c $ABS_PATH
   fi
 
   if [[ "$TMUX" = "" ]]

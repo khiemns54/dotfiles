@@ -1,7 +1,7 @@
 call plug#begin()
   Plug 'scrooloose/nerdtree'
   nmap <C-n> :NERDTreeToggle<CR>:vertical resize 30<CR>
-  nnoremap <Leader>t :NERDTreeFocus<CR>:vertical resize 30<CR>
+  nnoremap <Leader>t :NERDTreeFocus<CR>
   let NERDTreeIgnore =['\.swp$']
   let NERDTreeQuitOnOpen=1
 
