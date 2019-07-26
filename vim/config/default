@@ -12,9 +12,10 @@ let mapleader = 's'
 set autoread
 set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.jpg,*.png
+set ts=1
 
 set list
-set relativenumber
+" set relativenumber
 set visualbell
 set hls
 set ignorecase
@@ -75,7 +76,7 @@ nnoremap <Leader>f :NERDTreeFind<CR>
 nnoremap <Leader>n :bp<CR>
 nnoremap <Leader>d :bd<CR>
 nnoremap <Leader>D :bd!<CR>
-nnoremap <Leader>a =ip<CR>
+nnoremap <Leader>a mi=ip`i<CR>
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>n :bn<CR>
 
