@@ -9,7 +9,16 @@ call plug#begin()
   Plug 'ctrlpvim/ctrlp.vim'
   nnoremap <Leader>p :CtrlP<CR>
   nnoremap <Leader>b :CtrlPBuffer<CR>
-  let g:ctrlp_custom_ignore = '\v[\/](node_modules|build|tmp|vendor|log)$'
+
+  let g:ctrlp_custom_ignore = {
+    \ 'dir':'\v[\/](node_modules|build|tmp|vendor|log)$',
+    \ 'file': '\v\.(exe|so|dll|jpg|png)$',
+    \ }
+
+  let g:ctrlp_cache_dir = '/tmp/.cache/ctrlp'
+  if executable('ag')
+    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+  endif
 
   Plug 'rking/ag.vim'
   Plug 'scrooloose/nerdcommenter'
@@ -53,7 +62,6 @@ call plug#begin()
 
   Plug 'tpope/vim-fugitive'
   Plug 'machakann/vim-highlightedyank'
-
 call plug#end()
 
 colorscheme darkblue

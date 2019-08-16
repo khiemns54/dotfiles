@@ -79,6 +79,8 @@ nnoremap <Leader>D :bd!<CR>
 nnoremap <Leader>a mi=ip`i<CR>
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>n :bn<CR>
+nnoremap <Leader>ag <ESC>:Ag<Space>
+nnoremap <Leader>tt <ESC>:vert term<CR><C-w>L
 
 nnoremap <Tab>   >>
 nnoremap <S-Tab> <<
