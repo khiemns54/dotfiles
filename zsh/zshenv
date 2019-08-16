@@ -1,7 +1,7 @@
 #!/bin/zsh
 #
 cwsrb (){
-  BASE_WS="$HOME/workspace/finc"
+  BASE_WS="$HOME/workspace/projects"
   DES="$1"
   ABS_PATH="$BASE_WS/$DES"
   MAIN="main"

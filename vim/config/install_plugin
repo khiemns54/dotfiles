@@ -62,6 +62,13 @@ call plug#begin()
 
   Plug 'tpope/vim-fugitive'
   Plug 'machakann/vim-highlightedyank'
+  Plug 'talek/obvious-resize'
+  let g:obvious_resize_default = 10
+  noremap <silent> <C-K> :<C-U>ObviousResizeUp<CR>
+  noremap <silent> <C-J> :<C-U>ObviousResizeDown<CR>
+  noremap <silent> <C-H> :<C-U>ObviousResizeLeft<CR>
+  noremap <silent> <C-L> :<C-U>ObviousResizeRight<CR>
+
 call plug#end()
 
 colorscheme darkblue
