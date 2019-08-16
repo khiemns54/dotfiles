@@ -22,28 +22,52 @@
 (setq show-paren-delay 0)
 (setq sml/no-confirm-load-theme t)
 (setq font-lock-maximum-decoration t)
+(setq inhibit-startup-screen t)
+(setq-default indent-tabs-mode nil)
+(setq make-backup-files nil)
 
 ;; install package
 (setq use-package-always-ensure t)
 
 (use-package evil
- :config
- (evil-mode 1)
- (define-key evil-insert-state-map (kbd "C-c") 'evil-normal-state)
- (use-package evil-leader
   :config
-  (global-evil-leader-mode)
-  (evil-leader/set-leader "s")
-  (evil-leader/set-key
-    "b" 'helm-buffers-list
-    "ag" 'helm-projectile-ag)))
+  (evil-mode 1)
+  (define-key evil-insert-state-map (kbd "C-c") 'evil-normal-state)
+  (use-package evil-leader
+    :config
+    (global-evil-leader-mode)
+    (evil-leader/set-leader "s")
+    (evil-leader/set-key
+      "b" 'helm-buffers-list
+      "ag" 'helm-projectile-ag))
+  (use-package evil-matchit
+    :config
+    (global-evil-matchit-mode 1))
+  (evil-define-key 'insert global-map (kbd "C-j") 'evil-next-line)
+  (evil-define-key 'insert global-map (kbd "C-k") 'evil-previous-line)
+  (evil-define-key 'insert global-map (kbd "C-h") 'evil-backward-char)
+  (evil-define-key 'insert global-map (kbd "C-l") 'evil-forward-char)
+
+  (evil-define-key 'insert global-map (kbd "C-w l") 'evil-window-right)
+  (evil-define-key 'insert global-map (kbd "C-w h") 'evil-window-left)
+  (evil-define-key 'insert global-map (kbd "C-w k") 'evil-window-up)
+  (evil-define-key 'insert global-map (kbd "C-w j") 'evil-window-down)
+  )
 
 (use-package magit)
+
+(use-package smart-tab
+  :config
+  (setq smart-tab-using-hippie-expand t)
+  (setq smart-tab-completion-functions-alist
+        '((emacs-lisp-mode . lisp-complete-symbol)
+          (text-mode       . dabbrev-completion)))
+  (add-hook 'prog-mode-hook 'smart-tab-mode))
+
 (use-package which-key
   :config
   (which-key-mode 1)
-  (which-key-setup-side-window-bottom)
-)
+  (which-key-setup-side-window-bottom))
 
 (use-package projectile
   :defer t
@@ -65,22 +89,22 @@
     (setq helm-ag-thing-at-point 'symbol)))
 
 (use-package helm-projectile
-:bind (("C-S-P" . helm-projectile-switch-project)
-:map evil-normal-state-map
-("C-p" . helm-projectile))
-:config)
+  :bind (("C-S-P" . helm-projectile-switch-project)
+         :map evil-normal-state-map
+         ("C-p" . helm-projectile))
+  :config)
 
 (use-package powerline
- :config
- (use-package airline-themes
   :config
-  (require 'airline-themes)
-  (load-theme 'airline-dark t)))
+  (use-package airline-themes
+    :config
+    (require 'airline-themes)
+    (load-theme 'airline-dark t)))
 
 (use-package osx-clipboard
- :ensure t
- :config
- (osx-clipboard-mode +1))
+  :ensure t
+  :config
+  (osx-clipboard-mode +1))
 
 
 (use-package highlight-indent-guides
@@ -89,12 +113,19 @@
   (setq highlight-indent-guides-method 'character))
 
 (use-package ruby-mode
- :commands ruby-mode
- :mode   (("\\.rb$" . ruby-mode)
-   ("Capfile$" . ruby-mode)
-   ("Gemfile$" . ruby-mode)
-   ("[Rr]akefile$" . ruby-mode))
- :interpreter "ruby")
+  :commands ruby-mode
+  :mode   (("\\.rb$" . ruby-mode)
+           ("Capfile$" . ruby-mode)
+           ("Gemfile$" . ruby-mode)
+           ("[Rr]akefile$" . ruby-mode))
+  :interpreter "ruby"
+  :config
+  (add-hook 'ruby-mode-hook
+            '(lambda ()
+               (setq tab-width 2)
+               (setq indent-tabs-mode nil)
+               (setq ruby-indent-level tab-width)
+               )))
 
 (use-package inf-ruby
   :commands inf-ruby
@@ -111,3 +142,18 @@
   :config
   (custom-set-variables '(rspec-use-rake-flag nil))
   (custom-set-faces))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (evil-matchit smart-tab which-key use-package treemacs-projectile treemacs-magit treemacs-icons-dired treemacs-evil ruby-block rspec-mode osx-clipboard neotree kaolin-themes inf-ruby highlight-indent-guides helm-projectile helm-ag goto-last-change evil-surround evil-leader evil-indent-textobject dired-sidebar all-the-icons airline-themes)))
+ '(rspec-use-rake-when-possible nil))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
