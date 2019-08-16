@@ -51,9 +51,9 @@ call plug#begin()
   let g:syntastic_check_on_open = 1
   let g:syntastic_check_on_wq = 0
 
-  Plug 'airblade/vim-gitgutter'
   Plug 'tpope/vim-fugitive'
   Plug 'machakann/vim-highlightedyank'
+
 call plug#end()
 
 colorscheme darkblue

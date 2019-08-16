@@ -1,0 +1,113 @@
+;; init
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+(package-initialize)
+
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+(eval-when-compile
+  (require 'use-package))
+
+;; default config
+(setq ring-bell-function 'ignore)
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(global-visual-line-mode t)
+(show-paren-mode 1)
+(setq show-paren-delay 0)
+(setq sml/no-confirm-load-theme t)
+(setq font-lock-maximum-decoration t)
+
+;; install package
+(setq use-package-always-ensure t)
+
+(use-package evil
+ :config
+ (evil-mode 1)
+ (define-key evil-insert-state-map (kbd "C-c") 'evil-normal-state)
+ (use-package evil-leader
+  :config
+  (global-evil-leader-mode)
+  (evil-leader/set-leader "s")
+  (evil-leader/set-key
+    "b" 'helm-buffers-list
+    "ag" 'helm-projectile-ag)))
+
+(use-package magit)
+(use-package which-key
+  :config
+  (which-key-mode 1)
+  (which-key-setup-side-window-bottom)
+)
+
+(use-package projectile
+  :defer t
+  :config
+  (projectile-mode +1)
+  (projectile-global-mode))
+
+(use-package helm
+  :config
+  (helm-mode 1)
+  (setq helm-autoresize-mode t)
+  (setq helm-buffer-max-length 40)
+  (global-set-key (kbd "M-x") #'helm-M-x)
+  (define-key helm-map (kbd "C-j") 'helm-next-line)
+  (define-key helm-map (kbd "C-k") 'helm-previous-line)
+  (use-package helm-ag
+    :config
+    (setq helm-ag-base-command "ag --nogroup --ignore-case")
+    (setq helm-ag-thing-at-point 'symbol)))
+
+(use-package helm-projectile
+:bind (("C-S-P" . helm-projectile-switch-project)
+:map evil-normal-state-map
+("C-p" . helm-projectile))
+:config)
+
+(use-package powerline
+ :config
+ (use-package airline-themes
+  :config
+  (require 'airline-themes)
+  (load-theme 'airline-dark t)))
+
+(use-package osx-clipboard
+ :ensure t
+ :config
+ (osx-clipboard-mode +1))
+
+
+(use-package highlight-indent-guides
+  :config
+  (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+  (setq highlight-indent-guides-method 'character))
+
+(use-package ruby-mode
+ :commands ruby-mode
+ :mode   (("\\.rb$" . ruby-mode)
+   ("Capfile$" . ruby-mode)
+   ("Gemfile$" . ruby-mode)
+   ("[Rr]akefile$" . ruby-mode))
+ :interpreter "ruby")
+
+(use-package inf-ruby
+  :commands inf-ruby
+  :init
+  (add-hook 'ruby-mode-hook 'inf-ruby-minor-mode)
+  )
+
+(use-package rspec-mode
+  :defer 20
+  :commands rspec-mode
+  :config
+  (add-hook 'ruby-mode-hook 'rspec-mode)
+  ;; (rspec-install-snippets)
+  :config
+  (custom-set-variables '(rspec-use-rake-flag nil))
+  (custom-set-faces))

@@ -1,6 +1,6 @@
 syntax on
 set nocompatible
-set number
+" set number
 set shiftwidth=2 softtabstop=2 expandtab
 set autoindent
 set wildmenu
