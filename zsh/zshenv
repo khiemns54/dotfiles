@@ -1,6 +1,6 @@
 #!/bin/zsh
 #
-cwsrb (){
+cws (){
   BASE_WS="$HOME/workspace/projects"
   DES="$1"
   ABS_PATH="$BASE_WS/$DES"
@@ -33,4 +33,3 @@ cwsrb (){
     tmux select-window -t $DES
   fi
 }
-

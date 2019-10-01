@@ -1,6 +1,7 @@
 .DS_Store
 vendor/bundle
 config/databar_service_account_key.json
+config/gcp_databar_service_account_key.json
 .tags
 .tags1
 cache
@@ -9,3 +10,4 @@ cache
 *.swo
 tags
 tags.*
+node_modules

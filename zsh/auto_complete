@@ -1,0 +1,16 @@
+
+autoload -U compinit
+compinit
+
+compdef _cws cws
+function _cws() {
+  local state
+  BASE_WS="$HOME/workspace/projects"
+
+  _arguments \
+    '1: :-> folder'
+  case $state in
+    (folder) _arguments '1:profiles:($(ls $BASE_WS))'
+  esac
+}
+

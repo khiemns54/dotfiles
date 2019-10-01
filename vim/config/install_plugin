@@ -20,6 +20,8 @@ call plug#begin()
     let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
   endif
 
+  nmap <Leader>r :NERDTreeRefreshRoot<CR>:CtrlPClearCache<CR>
+
   Plug 'rking/ag.vim'
   Plug 'scrooloose/nerdcommenter'
   let g:NERDSpaceDelims = 1
