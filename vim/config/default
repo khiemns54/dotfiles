@@ -10,9 +10,19 @@ set tags=.tags;$HOME
 set nowrap
 let mapleader = 's'
 set autoread
+set autowrite
 set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.jpg,*.png
 set ts=1
+set regexpengine=1
+
+set nobackup
+set nowb
+set noswapfile
+set backupdir=~/tmp,/tmp
+set backupcopy=yes
+set backupskip=/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*
+set directory=/tmp
 
 set list
 " set relativenumber
@@ -77,6 +87,7 @@ nnoremap <Leader>n :bp<CR>
 nnoremap <Leader>d :bd<CR>
 nnoremap <Leader>D :bd!<CR>
 nnoremap <Leader>a mi=ip`i<CR>
+nnoremap <Leader>aa miGVgg=`i<CR>
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>n :bn<CR>
 nnoremap <Leader>g <ESC>:Ag<Space>

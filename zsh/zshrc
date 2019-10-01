@@ -4,4 +4,5 @@ plugins=(git)
 source $ZSH/oh-my-zsh.sh
 export DOTFILES="$HOME/.dotfiles"
 source $DOTFILES/khiemnsrc
+source $DOTFILES/zsh/auto_complete
 

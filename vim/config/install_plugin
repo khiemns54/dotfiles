@@ -20,8 +20,12 @@ call plug#begin()
     let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
   endif
 
+  nmap <Leader>r :NERDTreeRefreshRoot<CR>:CtrlPClearCache<CR>
+
   Plug 'rking/ag.vim'
   Plug 'scrooloose/nerdcommenter'
+  vnoremap <leader>/ :call NERDComment(0,"toggle")<CR>
+  nnoremap <leader>/ :call NERDComment(0,"toggle")<CR>
   let g:NERDSpaceDelims = 1
   let g:NERDCompactSexyComs = 1
   let g:NERDDefaultAlign = 'left'
@@ -68,6 +72,9 @@ call plug#begin()
   noremap <silent> <C-J> :<C-U>ObviousResizeDown<CR>
   noremap <silent> <C-H> :<C-U>ObviousResizeLeft<CR>
   noremap <silent> <C-L> :<C-U>ObviousResizeRight<CR>
+
+" Go
+  Plug 'fatih/vim-go'
 
 call plug#end()
 
