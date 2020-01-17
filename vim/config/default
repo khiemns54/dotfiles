@@ -11,7 +11,7 @@ set nowrap
 let mapleader = 's'
 set autoread
 set autowrite
-set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
+set listchars=tab:>·,trail:·,eol:↲,extends:»,precedes:«,nbsp:%
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.jpg,*.png
 set ts=1
 set regexpengine=1
@@ -19,10 +19,7 @@ set regexpengine=1
 set nobackup
 set nowb
 set noswapfile
-set backupdir=~/tmp,/tmp
-set backupcopy=yes
-set backupskip=/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*
-set directory=/tmp
+set nobackup
 
 set list
 " set relativenumber
@@ -108,3 +105,7 @@ cnoremap <Down> <NOP>
 cnoremap <Left> <NOP>
 cnoremap <Right> <NOP>
 
+augroup do
+  autocmd!
+  autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
+augroup END
