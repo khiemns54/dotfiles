@@ -9,12 +9,20 @@ set clipboard+=unnamed
 set tags=.tags;$HOME
 set nowrap
 let mapleader = 's'
-set autoread
-set autowrite
-set listchars=tab:>·,trail:·,eol:↲,extends:»,precedes:«,nbsp:%
+set listchars=tab:\│\ ,trail:·,eol:↲,extends:»,precedes:«,nbsp:%
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.jpg,*.png
 set ts=1
 set regexpengine=1
+set cmdheight=2
+set updatetime=300
+set shortmess+=c
+set signcolumn=yes
+hi NonText ctermfg=7 guifg=gray
+
+set autoread
+au CursorHold * checktime
+au FocusGained,BufEnter * checktime
+set autowrite
 
 set nobackup
 set nowb
@@ -32,9 +40,6 @@ runtime macros/matchit.vim
 filetype plugin on
 
 command Reload source ~/.vimrc
-
-noremap <Leader>p "*]p:set nopaste<CR>
-noremap <Leader>y "+y)
 
 " Moving in insert mode"
 inoremap <C-j>  <down>
@@ -66,29 +71,13 @@ noremap <Right> <NOP>
 " Disable s key
 noremap s <NOP>
 
-" Tab navigation"
-nnoremap <Leader>1 1gt
-nnoremap <Leader>2 2gt
-nnoremap <Leader>3 3gt
-nnoremap <Leader>4 4gt
-nnoremap <Leader>5 5gt
-nnoremap <Leader>6 6gt
-nnoremap <Leader>7 7gt
-nnoremap <Leader>8 8gt
-nnoremap <Leader>9 9gt
 nnoremap <Leader><Leader> o<ESC>
-nnoremap <Leader>h 0
-nnoremap <Leader>l $
-nnoremap <Leader>f :NERDTreeFind<CR>
-nnoremap <Leader>n :bp<CR>
-nnoremap <Leader>d :bd<CR>
-nnoremap <Leader>D :bd!<CR>
+nnoremap <silent> <Leader>f :NERDTreeFind<CR>
 nnoremap <Leader>a mi=ip`i<CR>
-nnoremap <Leader>aa miGVgg=`i<CR>
 nnoremap <Leader>w :w<CR>
-nnoremap <Leader>n :bn<CR>
 nnoremap <Leader>g <ESC>:Ag<Space>
 nnoremap <Leader>c <ESC>:vert term<CR><C-w>L
+
 
 nnoremap <Tab>   >>
 nnoremap <S-Tab> <<
@@ -104,6 +93,13 @@ cnoremap <Up> <NOP>
 cnoremap <Down> <NOP>
 cnoremap <Left> <NOP>
 cnoremap <Right> <NOP>
+
+tnoremap <C-n> <C-\><C-n>
+tnoremap <C-w>h <C-\><C-n><C-w>h
+tnoremap <C-w>j <C-\><C-n><C-w>j
+tnoremap <C-w>k <C-\><C-n><C-w>k
+tnoremap <C-w>l <C-\><C-n><C-w>l
+
 
 augroup do
   autocmd!

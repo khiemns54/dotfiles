@@ -2,7 +2,7 @@
 	path = vim/bundle/Vundle.vim
 	url = https://github.com/VundleVim/Vundle.vim.git
 [submodule "vim/bundle/vim-plug"]
-	path = vim/bundle/vim-plug
+	path = vim/.bundle/vim-plug
 	url = git@github.com:junegunn/vim-plug.git
 [submodule "tmux/.tmux"]
 	path = tmux/.tmux

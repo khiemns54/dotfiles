@@ -1,14 +1,17 @@
+source $DOTFILES/vim/.bundle/vim-plug/plug.vim
+
 call plug#begin()
   Plug 'scrooloose/nerdtree'
   nmap <C-n> :NERDTreeToggle<CR>
-  nnoremap <Leader>t :NERDTreeFocus<CR>
+  nnoremap <silent> <Leader>t :NERDTreeFocus<CR>
+  nnoremap <silent> <Leader>f :NERDTreeFind<CR>
   let NERDTreeIgnore =['\.swp$']
   let NERDTreeQuitOnOpen=1
 
   Plug 'tpope/vim-surround'
   Plug 'ctrlpvim/ctrlp.vim'
-  nnoremap <Leader>p :CtrlP<CR>
-  nnoremap <Leader>b :CtrlPBuffer<CR>
+  nnoremap <silent> <Leader>p :CtrlP<CR>
+  nnoremap <silent> <Leader>b :CtrlPBuffer<CR>
 
   let g:ctrlp_custom_ignore = {
     \ 'dir':'\v[\/](node_modules|build|tmp|vendor|log)$',
@@ -37,20 +40,18 @@ call plug#begin()
 
 " For ruby development
   Plug 'vim-ruby/vim-ruby'
+  Plug 'ngmy/vim-rubocop'
   Plug 'kana/vim-textobj-user'
   Plug 'rhysd/vim-textobj-ruby'
   Plug 'tpope/vim-rails'
   Plug 'tpope/vim-bundler'
   Plug 'tpope/vim-rake'
 
-  Plug 'djoshea/vim-autoread'
   Plug 'ludovicchabant/vim-gutentags'
   let g:gutentags_cache_dir = "/tmp/ctags"
   Plug 'vim-airline/vim-airline'
-  Plug 'vim-airline/vim-airline-themes'
+  Plug 'morhetz/gruvbox'
   let g:airline_powerline_fonts = 1
-  let g:airline#extensions#tabline#enabled = 1
-  let g:airline#extensions#tabline#fnamemod = ':t'
   set laststatus=2
 
   Plug 'vim-syntastic/syntastic'
@@ -73,9 +74,19 @@ call plug#begin()
   noremap <silent> <C-H> :<C-U>ObviousResizeLeft<CR>
   noremap <silent> <C-L> :<C-U>ObviousResizeRight<CR>
 
-" Go
-  Plug 'fatih/vim-go'
+  " Go
+  Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+  Plug 'sebdah/vim-delve'
+
+
+  Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': ':CocInstall coc-solargraph coc-go coc-json coc-python'}
+  inoremap <silent><expr> <C-F> coc#refresh()
+
+  nmap <silent> gd <Plug>(coc-definition)
+  nmap <silent> <leader>rn <Plug>(coc-rename)
 
 call plug#end()
 
-colorscheme darkblue
+colorscheme gruvbox
+set bg=dark
+let g:gruvbox_contrast_dark = "hard"
