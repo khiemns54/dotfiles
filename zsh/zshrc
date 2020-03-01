@@ -1,5 +1,5 @@
 export ZSH=$(ls -d ~/.oh-my-zsh)
-ZSH_THEME="refined"
+ZSH_THEME="cloud"
 plugins=(git)
 source $ZSH/oh-my-zsh.sh
 export DOTFILES="$HOME/.dotfiles"

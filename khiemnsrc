@@ -12,6 +12,7 @@ alias gitclean="git fetch; git branch --merged | egrep -v '(^\*|master|dev)' | x
 alias gitclear="git branch | grep -v "master" | xargs git branch -D "
 alias cls="tmux clear-history; clear"
 alias reload="exec $SHELL"
+alias vi="nvim"
 
 set -o ignoreeof
 
@@ -21,9 +22,11 @@ export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="/usr/local/go/bin:$PATH"
 export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/opt/openssl/lib/
-export PATH="$PATH:/usr/local/go/bin"
+export PATH="$PATH:$HOME/.cargo/bin"
+
 export GOPATH="$HOME/.go"
 export GOBIN="$GOPATH/bin"
+export PATH="$PATH:$GOBIN"
 mkdir -p $GOBIN
 
 export PYENV_ROOT="$HOME/.pyenv"

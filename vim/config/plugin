@@ -1,6 +1,6 @@
 source $DOTFILES/vim/.bundle/vim-plug/plug.vim
 
-call plug#begin()
+call plug#begin('~/.vim/plugged')
   Plug 'scrooloose/nerdtree'
   nmap <C-n> :NERDTreeToggle<CR>
   nnoremap <silent> <Leader>t :NERDTreeFocus<CR>
@@ -9,23 +9,7 @@ call plug#begin()
   let NERDTreeQuitOnOpen=1
 
   Plug 'tpope/vim-surround'
-  Plug 'ctrlpvim/ctrlp.vim'
-  nnoremap <silent> <Leader>p :CtrlP<CR>
-  nnoremap <silent> <Leader>b :CtrlPBuffer<CR>
 
-  let g:ctrlp_custom_ignore = {
-    \ 'dir':'\v[\/](node_modules|build|tmp|vendor|log)$',
-    \ 'file': '\v\.(exe|so|dll|jpg|png)$',
-    \ }
-
-  let g:ctrlp_cache_dir = '/tmp/.cache/ctrlp'
-  if executable('ag')
-    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-  endif
-
-  nmap <Leader>r :NERDTreeRefreshRoot<CR>:CtrlPClearCache<CR>
-
-  Plug 'rking/ag.vim'
   Plug 'scrooloose/nerdcommenter'
   vnoremap <leader>/ :call NERDComment(0,"toggle")<CR>
   nnoremap <leader>/ :call NERDComment(0,"toggle")<CR>
@@ -47,8 +31,6 @@ call plug#begin()
   Plug 'tpope/vim-bundler'
   Plug 'tpope/vim-rake'
 
-  Plug 'ludovicchabant/vim-gutentags'
-  let g:gutentags_cache_dir = "/tmp/ctags"
   Plug 'vim-airline/vim-airline'
   Plug 'morhetz/gruvbox'
   let g:airline_powerline_fonts = 1
@@ -66,24 +48,43 @@ call plug#begin()
   let g:syntastic_check_on_wq = 0
 
   Plug 'tpope/vim-fugitive'
-  Plug 'machakann/vim-highlightedyank'
   Plug 'talek/obvious-resize'
   let g:obvious_resize_default = 10
-  noremap <silent> <C-K> :<C-U>ObviousResizeUp<CR>
-  noremap <silent> <C-J> :<C-U>ObviousResizeDown<CR>
-  noremap <silent> <C-H> :<C-U>ObviousResizeLeft<CR>
-  noremap <silent> <C-L> :<C-U>ObviousResizeRight<CR>
+  nnoremap <silent> <C-K> :<C-U>ObviousResizeUp<CR>
+  nnoremap <silent> <C-J> :<C-U>ObviousResizeDown<CR>
+  nnoremap <silent> <C-H> :<C-U>ObviousResizeLeft<CR>
+  nnoremap <silent> <C-L> :<C-U>ObviousResizeRight<CR>
 
   " Go
   Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
   Plug 'sebdah/vim-delve'
 
 
-  Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': ':CocInstall coc-solargraph coc-go coc-json coc-python'}
-  inoremap <silent><expr> <C-F> coc#refresh()
+  " Coc
+  Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': ':CocInstall coc-solargraph coc-go coc-json coc-python coc-hightlight coc-pairs coc-yank'}
+  inoremap <silent><expr> <C-N> coc#refresh()
+  autocmd CursorHold * silent call CocActionAsync('highlight')
+  nmap <leader>ac  <Plug>(coc-codeaction)
 
   nmap <silent> gd <Plug>(coc-definition)
-  nmap <silent> <leader>rn <Plug>(coc-rename)
+  xmap if <Plug>(coc-funcobj-i)
+  xmap af <Plug>(coc-funcobj-a)
+  omap if <Plug>(coc-funcobj-i)
+  omap af <Plug>(coc-funcobj-a) nmap <silent> <leader>rn <Plug>(coc-rename)
+  nnoremap <silent> <Leader>D :call <SID>show_documentation()<CR>
+  function! s:show_documentation()
+    if (index(['vim','help'], &filetype) >= 0)
+      execute 'h '.expand('<cword>')
+    else
+      call CocAction('doHover')
+    endif
+  endfunction
+
+  Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
+  noremap <silent> <Leader>p :Clap files<CR>
+  noremap <silent> <Leader>b :Clap buffers<CR>
+  noremap <silent> <Leader>g :Clap grep<CR>
+
 
 call plug#end()
 
