@@ -61,10 +61,26 @@ call plug#begin('~/.vim/plugged')
 
 
   " Coc
-  Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': ':CocInstall coc-solargraph coc-go coc-json coc-python coc-hightlight coc-pairs coc-yank'}
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
   inoremap <silent><expr> <C-N> coc#refresh()
   autocmd CursorHold * silent call CocActionAsync('highlight')
   nmap <leader>ac  <Plug>(coc-codeaction)
+  let g:coc_config_home = '$DOTFILES/vim/coc'
+  let g:coc_global_extensions = [
+        \'coc-yank',
+        \'coc-pairs',
+        \'coc-json',
+        \'coc-yaml',
+        \'coc-python',
+        \'coc-java',
+        \'coc-go',
+        \'coc-sh',
+        \'coc-solargraph',
+        \'coc-highlight',
+        \'coc-sql',
+        \'coc-yank',
+        \'coc-json'
+        \]
 
   nmap <silent> gd <Plug>(coc-definition)
   xmap if <Plug>(coc-funcobj-i)

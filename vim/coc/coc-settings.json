@@ -1,0 +1,8 @@
+{
+  "languageserver": {
+    "kotlin": {
+      "command": "$DOTFILES/vim/coc/lsp/kotlin/bin/kotlin-language-server",
+      "filetypes": ["kotlin"]
+    }
+  }
+}

@@ -25,3 +25,6 @@
 [submodule "vim/.bundle/kotlin-language-server"]
 	path = vim/.bundle/kotlin-language-server
 	url = git@github.com:fwcd/kotlin-language-server.git
+[submodule "vim/coc/lsp/kotlin-language-server"]
+	path = vim/coc/lsp/kotlin-language-server
+	url = git@github.com:fwcd/kotlin-language-server.git
