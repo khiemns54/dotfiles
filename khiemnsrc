@@ -85,6 +85,11 @@ then
 fi
 
 
+if ! type fzf &>/dev/null ; then
+  brew install fzf
+  $(brew --prefix)/opt/fzf/install
+fi
+
 autoload -Uz colors; colors
 autoload -Uz add-zsh-hook
 autoload -Uz terminfo
