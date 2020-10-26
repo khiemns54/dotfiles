@@ -1,0 +1,26 @@
+{
+  "configurations": {
+    "debug": {
+      "adapter": "vscode-go",
+      "configuration": {
+        "request": "launch",
+        "program": "${file}",
+        "mode": "debug",
+        "dlvToolPath": "$GOBIN/dlv",
+        "trace": true,
+        "showLog": true
+      }
+    },
+    "test": {
+      "adapter": "vscode-go",
+      "configuration": {
+        "request": "launch",
+        "program": "${file}",
+        "mode": "test",
+        "dlvToolPath": "$GOBIN/dlv",
+        "trace": true,
+        "showLog": true
+      }
+    }
+  }
+}
