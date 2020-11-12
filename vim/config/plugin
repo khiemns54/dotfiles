@@ -112,6 +112,7 @@ call plug#begin('~/.vim/plugged')
   noremap <silent> <Leader>P :FzfGFiles<CR>
   noremap <silent> <Leader>b :FzfBuffers<CR>
   noremap <silent> <Leader>g :RG<CR>
+  let $FZF_DEFAULT_COMMAND = 'ag -g ""'
   function! RipgrepFzf(query, fullscreen)
     let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
     let initial_command = printf(command_fmt, shellescape(a:query))
