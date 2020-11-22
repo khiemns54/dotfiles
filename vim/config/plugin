@@ -57,19 +57,35 @@ call plug#begin('~/.vim/plugged')
 
   " Go
   Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-  Plug 'sebdah/vim-delve'
-
 
   " Coc
-  Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': ':CocInstall coc-solargraph coc-go coc-json coc-python coc-hightlight coc-pairs coc-yank'}
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
   inoremap <silent><expr> <C-N> coc#refresh()
   autocmd CursorHold * silent call CocActionAsync('highlight')
   nmap <leader>ac  <Plug>(coc-codeaction)
+  let g:coc_config_home = '$DOTFILES/vim/coc'
+  let g:coc_global_extensions = [
+        \'coc-yank',
+        \'coc-pairs',
+        \'coc-json',
+        \'coc-yaml',
+        \'coc-python',
+        \'coc-java',
+        \'coc-java-debug',
+        \'coc-go',
+        \'coc-sh',
+        \'coc-solargraph',
+        \'coc-highlight',
+        \'coc-sql',
+        \'coc-yank',
+        \'coc-snippets',
+        \'coc-json'
+        \]
+
+  let g:coc_snippet_next = '<c->>'
+  let g:coc_snippet_prev = '<c-<>'
 
   nmap <silent> gd <Plug>(coc-definition)
-  xmap if <Plug>(coc-funcobj-i)
-  xmap af <Plug>(coc-funcobj-a)
-  omap if <Plug>(coc-funcobj-i)
   omap af <Plug>(coc-funcobj-a) nmap <silent> <leader>rn <Plug>(coc-rename)
   nnoremap <silent> <Leader>D :call <SID>show_documentation()<CR>
   function! s:show_documentation()
@@ -80,12 +96,53 @@ call plug#begin('~/.vim/plugged')
     endif
   endfunction
 
-  Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
-  noremap <silent> <Leader>p :Clap files<CR>
-  noremap <silent> <Leader>b :Clap buffers<CR>
-  noremap <silent> <Leader>g :Clap grep<CR>
+  " Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
+  " noremap <silent> <Leader>p :Clap files<CR>
+  " noremap <silent> <Leader>b :Clap buffers<CR>
+  " noremap <silent> <Leader>g :Clap grep<CR>
 
-  Plug 'udalov/kotlin-vim'
+  Plug 'junegunn/fzf', { 'do': ':fzf#install()'}
+  Plug 'junegunn/fzf.vim'
+  let g:fzf_command_prefix = 'Fzf'
+  let g:fzf_buffers_jump = 1
+  let g:fzf_preview_window = ['right:50%', 'ctrl-/']
+  let g:fzf_history_dir = '~/.local/share/fzf-history'
+  let g:fzf_layout = { 'down': '30%' }
+  noremap <silent> <Leader>p :FzfFiles<CR>
+  noremap <silent> <Leader>P :FzfGFiles<CR>
+  noremap <silent> <Leader>b :FzfBuffers<CR>
+  noremap <silent> <Leader>g :RG<CR>
+  let $FZF_DEFAULT_COMMAND = 'ag -g ""'
+  function! RipgrepFzf(query, fullscreen)
+    let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
+    let initial_command = printf(command_fmt, shellescape(a:query))
+    let reload_command = printf(command_fmt, '{q}')
+    let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+    call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+  endfunction
+
+  command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
+
+  Plug 'puremourning/vimspector'
+  let g:vimspector_base_dir= expand('$DOTFILES/vim/vimspector-config')
+  let g:vimspector_install_gadgets = [ 
+      \'debugpy',
+      \'vscode-go',
+      \'vscode-java-debug'
+    \]
+
+  nmap <Leader>dd <Plug>VimspectorContinue
+  autocmd FileType java nmap <Leader>d :CocCommand java.debug.vimspector.start<CR>
+
+  nmap <Leader>dc <Plug>VimspectorContinue
+  nmap <Leader>dx :VimspectorReset<CR>
+  nmap <Leader>de :VimspectorEval<space>
+  nmap <Leader>dw :VimspectorWatch<space>
+  nmap <Leader>db <Plug>VimspectorToggleBreakpoint
+  nmap <Leader>dB <Plug>VimspectorAddFunctionBreakpoint
+  nmap <Leader>dr <Plug>VimspectorRestart
+
+  Plug 'sheerun/vim-polyglot'
 
 call plug#end()
 

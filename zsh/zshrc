@@ -6,7 +6,4 @@ export DOTFILES="$HOME/.dotfiles"
 source $DOTFILES/khiemnsrc
 source $DOTFILES/zsh/auto_complete
 
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/Users/nguyen.khiem/.sdkman"
-[[ -s "/Users/nguyen.khiem/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/nguyen.khiem/.sdkman/bin/sdkman-init.sh"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

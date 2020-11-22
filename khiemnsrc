@@ -40,9 +40,9 @@ if hash rbenv 2>/dev/null ; then
   eval "$(rbenv init -)"
 fi
 
-export PATH="$HOME/.ndenv/bin:$PATH"
-if hash ndenv 2>/dev/null ; then
-  eval "$(ndenv init -)"
+export PATH="$HOME/.nodenv/bin:$PATH"
+if hash nodenv 2>/dev/null ; then
+  eval "$(nodenv init -)"
 fi
 export PATH="${HOME}/.scalaenv/bin:${PATH}"
 if hash scalaenv 2>/dev/null ; then
@@ -84,6 +84,11 @@ then
   ln -s $DOTFILES/zsh/zshenv ~/.zshenv
 fi
 
+
+if ! type fzf &>/dev/null ; then
+  brew install fzf
+  $(brew --prefix)/opt/fzf/install
+fi
 
 autoload -Uz colors; colors
 autoload -Uz add-zsh-hook
