@@ -31,7 +31,7 @@ export PATH="$PATH:$GOBIN"
 mkdir -p $GOBIN
 
 export PATH="$HOME/.anyenv/bin:$PATH"
-if type anyenv 2>/dev/null ; then
+if hash anyenv 2>/dev/null ; then
   eval "$(anyenv init -)"
 fi
 

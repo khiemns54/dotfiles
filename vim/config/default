@@ -46,24 +46,6 @@ filetype plugin on
 
 command Reload source ~/.vimrc
 
-" Moving in insert mode"
-inoremap <C-j>  <down>
-inoremap <C-k>  <up>
-inoremap <C-h>  <left>
-inoremap <C-l>  <right>
-
-" Disable arrow keys in insertmode
-inoremap <Up> <NOP>
-inoremap <Down> <NOP>
-inoremap <Left> <NOP>
-inoremap <Right> <NOP>
-
-" Disable arrow keys in normal mode
-noremap <Up> <NOP>
-noremap <Down> <NOP>
-noremap <Left> <NOP>
-noremap <Right> <NOP>
-
 " Disable s key
 noremap s <NOP>
 
@@ -80,6 +62,12 @@ else
   nnoremap <silent> <Leader>C <ESC>:term<CR><C-w>k
 endif
 
+
+" Moving in insert mode"
+inoremap <C-j>  <down>
+inoremap <C-k>  <up>
+inoremap <C-h>  <left>
+inoremap <C-l>  <right>
 
 nnoremap <Tab>   >>
 nnoremap <S-Tab> <<

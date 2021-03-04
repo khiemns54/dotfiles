@@ -1,0 +1,90 @@
+syntax on
+set nocompatible
+" set number
+set autoindent
+set wildmenu
+set backspace=indent,eol,start
+set clipboard+=unnamed
+set tags=.tags;$HOME
+set nowrap
+let mapleader = 's'
+set listchars=tab:\│\ ,trail:·,eol:↲,extends:»,precedes:«,nbsp:%
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.jpg,*.png
+set ts=1
+set regexpengine=1
+set cmdheight=2
+set updatetime=300
+set shortmess+=c
+set signcolumn=yes
+set autoread
+set autowrite
+
+set nobackup
+set nowb
+set noswapfile
+set nobackup
+
+set list
+" set relativenumber
+set visualbell
+set hls
+set ignorecase
+set infercase
+
+set hidden
+
+filetype plugin on
+
+" Moving in insert mode"
+inoremap <C-j>  <down>
+inoremap <C-k>  <up>
+inoremap <C-h>  <left>
+inoremap <C-l>  <right>
+
+" Disable arrow keys in insertmode
+inoremap <Up> <NOP>
+inoremap <Down> <NOP>
+inoremap <Left> <NOP>
+inoremap <Right> <NOP>
+
+" Disable arrow keys in normal mode
+noremap <Up> <NOP>
+noremap <Down> <NOP>
+noremap <Left> <NOP>
+noremap <Right> <NOP>
+
+" Disable s key
+noremap s <NOP>
+
+nnoremap <Tab>   >>
+nnoremap <S-Tab> <<
+nnoremap Y y$
+nnoremap <Space> i<Space><ESC>l
+
+cnoremap <Up> <NOP>
+cnoremap <Down> <NOP>
+cnoremap <Left> <NOP>
+cnoremap <Right> <NOP>
+
+" action
+nnoremap <Leader><Leader> o<ESC>
+nnoremap <silent> <Leader>a mi=ip`i<CR>
+nnoremap <silent> <Leader>w :w<CR>
+nnoremap <silent> <Leader>g :action FindInPath<CR>
+nnoremap <silent> <Leader>p :action GotoFile<CR>
+nnoremap <silent> <Leader>f :action ActivateProjectToolWindow<CR>
+nnoremap <silent> <Leader>b :action RecentFiles<CR>
+nnoremap <silent> <Leader>c :action ActivateTerminalToolWindow<CR>
+nnoremap <silent> <Leader>r :source ~/.ideavimrc<CR>
+nmap <C-c> <ESC>
+nmap gf :action GotoImplementaion<CR>
+
+set surround
+set commentary
+set highlightedyank
+set smartcase
+set incsearch
+set showmatch matchtime=1
+set laststatus=2
+set display=lasttime
+set showcmd
