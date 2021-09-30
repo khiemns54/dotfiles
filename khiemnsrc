@@ -2,6 +2,8 @@
 
 git config --global core.excludesfile $DOTFILES/git/gitignore
 
+export EDITOR="$(which nvim)"
+
 alias be="bundle exec"
 alias pe="pipenv run python"
 alias rspec="bundle exec rspec"
@@ -26,7 +28,7 @@ export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/opt/openssl/lib/
 export PATH="$PATH:$HOME/.cargo/bin"
 
 export JAVA_HOME=$(/usr/libexec/java_home -v 11.0)
-export JDK_HOME=$(/usr/libexec/java_home -v 11.0)
+# export JDK_HOME=$(/usr/libexec/java_home -v 11.0)
 
 export GOPATH="$HOME/.go"
 export GOBIN="$GOPATH/bin"
@@ -37,6 +39,14 @@ export PATH="$HOME/.anyenv/bin:$PATH"
 if hash anyenv 2>/dev/null ; then
   eval "$(anyenv init -)"
 fi
+
+if hash direnv 2>/dev/null ; then
+  eval "$(direnv hook zsh)"
+fi
+
+# if hash jenv 2>/dev/null ; then
+#   export JAVA_HOME="$HOME/.jenv/versions/`jenv version-name`"
+# fi
 
 ssh-add ~/.ssh/id_rsa 2> /dev/null
 
