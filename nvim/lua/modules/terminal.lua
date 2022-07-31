@@ -13,6 +13,7 @@ require("toggleterm").setup {
 }
 
 vimp.nnoremap("<leader>c", "<cmd>ToggleTerm<CR>")
+vimp.nnoremap("<leader>C", "<cmd>ToggleTerm direction=horizontal<CR>")
 
 local Terminal  = require('toggleterm.terminal').Terminal
 local lazygit = Terminal:new({

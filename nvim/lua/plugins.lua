@@ -135,7 +135,12 @@ require("packer").startup(function()
   }
 
   -- UI
-  use {"ellisonleao/gruvbox.nvim", requires = {"rktjmp/lush.nvim"}}
+  use {"savq/melange", requires = {"rktjmp/lush.nvim"}, 
+    config = function()
+      vim.cmd("colorscheme melange")
+    end
+  }
+
   use {
     "lukas-reineke/indent-blankline.nvim",
     config = function()
@@ -156,5 +161,4 @@ require("packer").startup(function()
   }
 end)
 
-vim.cmd("colorscheme gruvbox")
 vim.g.dashboard_default_executive = 'telescope'
