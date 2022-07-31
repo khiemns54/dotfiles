@@ -11,3 +11,8 @@ cache
 tags
 tags.*
 node_modules
+bin
+.classpath
+.project
+.settings
+.envrc

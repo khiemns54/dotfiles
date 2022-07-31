@@ -1,2 +1,0 @@
-source $DOTFILES/vim/config/default
-source $DOTFILES/vim/config/plugin
