@@ -3,7 +3,6 @@ local vimp = require("vimp")
 vim.g.mapleader = "s"
 vimp.nnoremap("<leader><leader>", "o<ESC>")
 vimp.nnoremap("<leader>a", "mi=ip`i<CR>")
-vimp.nnoremap("<leader>w", ":w<CR>")
 vimp.inoremap("<C-j>",  "<down>")
 vimp.inoremap("<C-k>",  "<up>")
 vimp.inoremap("<C-h>",  "<left>")

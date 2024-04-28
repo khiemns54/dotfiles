@@ -1,0 +1,125 @@
+# All modes
+:: default
+:: yabai
+:: switch_app
+:: quit
+:: slack
+
+switch_app < ctrl - 0 ; default
+yabai < ctrl - 0 ; default
+quit < ctrl - 0 ; default
+slack < ctrl - 0 ; default
+
+# Yabai leader key
+ctrl - y ; yabai
+yabai < shift - r : yabai --restart-service ; skhd -k "ctrl - 0"
+# Changing window focus
+yabai < j : yabai -m window --focus south; skhd -k "ctrl - 0"
+yabai < k : yabai -m window --focus north; skhd -k "ctrl - 0"
+yabai < h : yabai -m window --focus west; skhd -k "ctrl - 0"
+yabai < l : yabai -m window --focus east; skhd -k "ctrl - 0"
+
+# Changing dislay focus
+yabai < s : yabai -m display --focus west; skhd -k "ctrl - 0"
+yabai < g : yabai -m display --focus east; skhd -k "ctrl - 0"
+
+# Swap
+yabai < shift - j : yabai -m window --warp south; skhd -k "ctrl - 0"
+yabai < shift - k : yabai -m window --warp north; skhd -k "ctrl - 0"
+yabai < shift - h : yabai -m window --warp west; skhd -k "ctrl - 0"
+yabai < shift - l : yabai -m window --warp east; skhd -k "ctrl - 0"
+
+# Move window
+yabai < shift - s : yabai -m window --display west; yabai -m display --focus west; skhd -k "ctrl - 0"
+yabai < shift - g : yabai -m window --display east; yabai -m display --focus east; skhd -k "ctrl - 0"
+yabai < ctrl - s : skhd -k "alt + cmd - s"; skhd -k "ctrl - 0"
+yabai < ctrl - g : skhd -k "alt + cmd - g"; skhd -k "ctrl - 0"
+yabai < 1 : skhd -k "shift + alt + cmd - 1" ; skhd -k "ctrl - 0"
+yabai < 2 : skhd -k "shift + alt + cmd - 2" ; skhd -k "ctrl - 0"
+yabai < 3 : skhd -k "shift + alt + cmd - 3" ; skhd -k "ctrl - 0"
+yabai < 4 : skhd -k "shift + alt + cmd - 4" ; skhd -k "ctrl - 0"
+yabai < 5 : skhd -k "shift + alt + cmd - 5" ; skhd -k "ctrl - 0"
+yabai < 6 : skhd -k "shift + alt + cmd - 6" ; skhd -k "ctrl - 0"
+yabai < shift - 1 : yabai -m window --space 1; yabai -m window --focus recent; yabai -m space --balance; skhd -k "ctrl - 0"
+yabai < shift - 2 : yabai -m window --space 2; yabai -m window --focus recent; yabai -m space --balance; khd -k "ctrl - 0"
+yabai < shift - 3 : yabai -m window --space 3; yabai -m window --focus recent; yabai -m space --balance; khd -k "ctrl - 0"
+yabai < shift - 4 : yabai -m window --space 4; yabai -m window --focus recent; yabai -m space --balance; khd -k "ctrl - 0"
+yabai < shift - 5 : yabai -m window --space 5; yabai -m window --focus recent; yabai -m space --balance; khd -k "ctrl - 0"
+yabai < shift - 6 : yabai -m window --space 6; yabai -m window --focus recent; yabai -m space --balance; khd -k "ctrl - 0"
+
+# Focus recent(^)
+yabai < 0x18 : yabai -m window --focus recent; skhd -k "ctrl - 0 "
+
+# Rotate
+yabai < r : yabai -m space --rotate 270; yabai -m display --focus west; skhd -k "ctrl - 0"
+
+# Maximize
+yabai < m : yabai -m window --toggle zoom-fullscreen; skhd -k "ctrl - 0"
+
+# Balance
+yabai < a : yabai -m space --balance ; skhd -k "ctrl -0"
+
+
+# Mode switch app(;)
+ctrl - 0x29 ; switch_app
+switch_app < c : yabai -m window --focus "$(yabai -m query --windows | jq 'map(select(.app == "Google Chrome")) | .[0].id')" ; skhd -k "ctrl - 0"
+switch_app < s : yabai -m window --focus "$(yabai -m query --windows | jq 'map(select(.app == "Slack")) | .[0].id')" ; skhd -k "ctrl - 0"
+switch_app < t : yabai -m window --focus "$(yabai -m query --windows | jq 'map(select(.app == "Terminal")) | .[0].id')" ; skhd -k "ctrl - 0"
+switch_app < i : yabai -m window --focus "$(yabai -m query --windows | jq 'map(select(.app == "IntelliJ IDEA")) | .[0].id')" ; skhd -k "ctrl - 0"
+
+# Quit
+ctrl - q ; quit
+quit < q : skhd -k "cmd - w"; yabai -m space --focus recent; skhd -k "ctrl - 0"
+quit < shift - q : skhd -k "cmd - q"; yabai -m space --focus recent; skhd -k "ctrl - 0"
+
+
+#### Slack
+ctrl - s ; slack 
+slack < escape ; default
+
+# Jump
+slack < p [
+  "slack" : skhd -k "cmd - k"; skhd -k "ctrl - 0"
+]
+
+# Search
+slack < 0x2C [
+  "slack" : skhd -k "cmd - g"; skhd -k "ctrl - 0"
+]
+
+# Home
+slack < h [
+  "slack" : skhd -k "ctrl - 2"; skhd -k "ctrl - 0"
+]
+
+# DM
+slack < d [
+  "slack" : skhd -k "ctrl - 2"; skhd -k "ctrl - 0"
+]
+
+# Activity
+slack < a [
+  "slack" : skhd -k "ctrl - 3"; skhd -k "ctrl - 0"
+]
+
+# Edit last
+slack < shift - e [
+  "slack" : skhd -k "cmd - up"; skhd -k "ctrl - 0"
+]
+
+# Thread
+slack < shift - t [
+  "slack" : skhd -k "cmd + shift - t"; skhd -k "ctrl - 0"
+]
+
+# Next
+slack < shift - n [
+  "slack" : skhd -k "f6"; skhd -k "ctrl - 0"
+]
+
+# Preve
+slack < shift - p [
+  "slack" : skhd -k "shift - f6"; skhd -k "ctrl - 0"
+]
+
+#### End Slack
