@@ -33,34 +33,6 @@ require("packer").startup(function()
     end
   }
 
-  -- LSP
-  use { 'neovim/nvim-lspconfig',
-    config = [[require'modules/lsp']],
-    setup = function()
-      require("utils").packer_lazy_load("nvim-lspconfig")
-      vim.defer_fn(function()
-        if vim.bo.filetype ~= "packer" then
-          vim.cmd "silent! e %"
-        end
-      end, 0)
-    end,
-  }
-  
-  use {
-    'kabouzeid/nvim-lspinstall',
-    config = function()
-      require'lspinstall'.setup()
-    end
-  }
-
-  use { 'nvim-lua/lsp-status.nvim', config = [[require'modules/lspstatus']],
-      after = 'nvim-lspconfig',
-    }
-    use { 'ray-x/lsp_signature.nvim',
-      after = {'nvim-lspconfig'},
-      config = [[require'modules/lspsignature']]
-    }
-
   use {
     "hrsh7th/nvim-cmp",
     config = [[require'modules/cmp']],
@@ -75,12 +47,6 @@ require("packer").startup(function()
     run = function()
       require("modules.cmp").config()
     end,
-  }
-
-  use {
-    'glepnir/lspsaga.nvim',
-    disable = false,
-    config = [[require'modules/lspsaga']]
   }
 
   use { 'kosayoda/nvim-lightbulb',
@@ -144,10 +110,13 @@ require("packer").startup(function()
   use {
     "lukas-reineke/indent-blankline.nvim",
     config = function()
-      require("indent_blankline").setup {
-        char = "|",
-        buftype_exclude = {"terminal"},
-        use_treesitter = true,
+      require("ibl").setup {
+	indent = { highlight = highlight, char = "|" },
+	whitespace = {
+	    highlight = highlight,
+	    remove_blankline_trail = false,
+	},
+	scope = { enabled = false },
       }
     end
   }
