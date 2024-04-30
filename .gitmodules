@@ -31,3 +31,6 @@
 [submodule "lsp/kotlin/kotlin-language-server"]
 	path = lsp/kotlin/kotlin-language-server
 	url = git@github.com:fwcd/kotlin-language-server.git
+[submodule "widget/simple-bar"]
+	path = widget/simple-bar
+	url = https://github.com/Jean-Tinland/simple-bar

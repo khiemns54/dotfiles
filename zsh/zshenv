@@ -33,3 +33,16 @@ cws (){
     tmux select-window -t $DES
   fi
 }
+
+xbar_refresh () {
+  open -gj "xbar://app.xbarapp.com/refreshPlugin?path=$1"
+}
+
+skhd_mode () {
+  echo $1 > /tmp/skhd_mode
+  xbar_refresh skhd_mode
+}
+
+xbar_yabai_refresh () {
+  xbar_refresh yabai
+}
