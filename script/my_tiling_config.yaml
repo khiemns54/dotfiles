@@ -1,0 +1,32 @@
+modes:
+  titling:
+    name: Titling
+    key: "ctrl - w"
+  switch_app:
+    name: Switch
+    key: "ctrl - ;"
+  yabai:
+    name: Yabai
+    key: "ctrl - y"
+  default:
+    name: "-"
+    key: "ctrl - 0"
+
+apps:
+  chrome:
+    name: Google Chrome
+    key: c
+  slack:
+    name: Slack
+    key: s
+  terminal:
+    name: Terminal
+    key: t
+  intellij:
+    name: IntelliJ IDEA
+    app: IntelliJ IDEA CE
+    key: i
+
+xbar:
+  skhd_mode:
+    file: skhd_mode

@@ -1,12 +1,12 @@
 # All modes
-:: default : skhd_mode "-"
-:: yabai : skhd_mode "Yabai"
-:: switch_app : skhd_mode "Switch"
-:: quit : skhd_mode "Q"
-:: slack : skhd_mode "Slack"
-:: mouse : skhd_mode "Mouse"
-:: short_cat : skhd_mode "Short cat"
-:: intellij_mode : skhd_mode "IntelliJ"
+:: default : my_tiling_man skhd_mode_xbar default
+:: yabai : my_tiling_man skhd_mode_xbar yabai
+:: switch_app : my_tiling_man skhd_mode_xbar switch_app
+:: quit : my_tiling_man skhd_mode_xbar quite
+:: slack : my_tiling_man skhd_mode_xbar slack
+:: mouse : my_tiling_man skhd_mode_xbar mouse
+:: short_cat : my_tiling_man skhd_mode_xbar short_cat
+:: intellij_mode : my_tiling_man skhd_mode_xbar intellij
 
 switch_app < ctrl - 0 ; default
 switch_app < escape ; default
@@ -28,15 +28,10 @@ intellij_mode < escape ; default
 ctrl - y ; yabai
 yabai < shift - r : yabai --restart-service ; skhd -k "ctrl - 0"
 # Changing window focus
-yabai < j : yabai -m window --focus south; skhd -k "ctrl - 0"
-yabai < k : yabai -m window --focus north; skhd -k "ctrl - 0"
-yabai < h : yabai -m window --focus west; skhd -k "ctrl - 0"
-yabai < l : yabai -m window --focus east; skhd -k "ctrl - 0"
-
-# Changing dislay focus
-yabai < s : yabai -m display --focus west; skhd -k "ctrl - 0"
-yabai < g : yabai -m display --focus east; skhd -k "ctrl - 0"
-yabai < c : yabai -m window --focus mouse; skhd -k "ctrl - 0"
+yabai < j : my_tiling_man jump_window down ; skhd_default
+yabai < k : my_tiling_man jump_window up ; skhd_default
+yabai < h : my_tiling_man jump_window left ; skhd_default
+yabai < l : my_tiling_man jump_window right ; skhd_default
 
 # Swap
 yabai < shift - j : yabai -m window --warp south; skhd -k "ctrl - 0"
@@ -75,7 +70,7 @@ yabai < ctrl - k : yabai -m window --resize top:0:-20 ; yabai -m window --resize
 yabai < ctrl - l : yabai -m window --resize right:20:0 ; yabai -m window --resize left:20:0 
 
 # Maximize
-yabai < m : yabai -m window --toggle zoom-fullscreen; skhd -k "ctrl - 0"
+yabai < m : my_tiling_man yabai_toggle_fullscreen; skhd_default
 
 # Balance
 yabai < a : yabai -m space --balance; skhd -k "ctrl - 0"
@@ -86,10 +81,10 @@ yabai < i : skhd -k "ctrl - 0x7E"; skhd -k "ctrl - 0"
 
 # Mode switch app(;)
 ctrl - 0x29 ; switch_app
-switch_app < c : yabai -m window --focus "$(yabai -m query --windows | jq 'map(select(.app == "Google Chrome")) | .[0].id')"; skhd -k "ctrl - 0"
-switch_app < s : yabai -m window --focus "$(yabai -m query --windows | jq 'map(select(.app == "Slack")) | .[0].id')"; skhd -k "ctrl - 0"
-switch_app < t : yabai -m window --focus "$(yabai -m query --windows | jq 'map(select(.app == "Terminal")) | .[0].id')"; skhd -k "ctrl - 0"
-switch_app < i : yabai -m window --focus "$(yabai -m query --windows | jq 'map(select(.app == "IntelliJ IDEA")) | .[0].id')"; skhd -k "ctrl - 0"
+switch_app < c : my_tiling_man switch_app "Google Chrome"; skhd_default
+switch_app < s : my_tiling_man switch_app "Slack"; skhd_default
+switch_app < t : my_tiling_man switch_app "Terminal"; skhd_default
+switch_app < i : my_tiling_man switch_app "IntelliJ IDEA"; skhd_default
 
 # Quit
 ctrl - q ; quit
@@ -190,9 +185,6 @@ ctrl - o : skhd -k "ctrl + alt + shift - x"
 
 #### Intelij
 ctrl + cmd + shift + alt - i ; intellij_mode
-ctrl - w [
-  "IntelliJ IDEA": skhd -k "ctrl + cmd + shift + alt - i"
-]
 
 intellij_mode < ctrl - h: skhd -k "ctrl  + alt - 0x7B"
 intellij_mode < ctrl - j: skhd -k "ctrl  + alt - 0x7D"

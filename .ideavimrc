@@ -55,6 +55,7 @@ nnoremap <silent> <Leader>de :action EvaluateExpression<CR>
 
 
 nmap <C-c> <ESC>
+nmap <C-n> NERDTreeToggle<CR>
 nmap gd :action GotoImplementation<CR>
 nmap gu :action GotoSuperMethod<CR>
 

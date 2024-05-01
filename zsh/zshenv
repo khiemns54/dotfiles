@@ -38,11 +38,14 @@ xbar_refresh () {
   open -gj "xbar://app.xbarapp.com/refreshPlugin?path=$1"
 }
 
-skhd_mode () {
-  echo $1 > /tmp/skhd_mode
-  xbar_refresh skhd_mode
-}
-
 xbar_yabai_refresh () {
   xbar_refresh yabai
+}
+
+skhd_default () {
+  my_tiling_man skhd_switch_mode default
+}
+
+my_tiling_man () {
+  python $HOME/.dotfiles/script/my_tiling_man.py "$@"
 }
