@@ -10,5 +10,9 @@
   {%- endfor %}
 ]
 {% else -%}
+{{ mode }} < {{ skhd_key_convert(key) }} : skhd -k "{{ skhd_key_convert(map["to"]) }}"
+{%- if not map["skip_default"] -%}
+; skhd_default
+{%- endif %}
 {% endif -%}
 {% endfor -%}

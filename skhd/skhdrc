@@ -87,6 +87,7 @@ yabai < j : my_tiling_man jump_window down ; skhd_default
 yabai < k : my_tiling_man jump_window up ; skhd_default
 yabai < h : my_tiling_man jump_window left ; skhd_default
 yabai < l : my_tiling_man jump_window right ; skhd_default
+yabai < x : my_tiling_man close_window ; skhd_default
 
 # Swap
 yabai < shift - j : yabai -m window --warp south; skhd_default

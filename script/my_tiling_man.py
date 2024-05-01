@@ -196,6 +196,9 @@ def yabai_toggle_fullscreen():
     run_cmd("yabai -m window {} --toggle zoom-fullscreen".format(window_id))
 
 
+def close_window():
+    run_cmd("yabai -m window --close")
+
 def jump_window(direction):
     direction = direction.lower()
     window = get_current_window()
@@ -307,6 +310,7 @@ def routing(sub_cmd, args):
         "skhd_switch_mode": skhd_switch_mode,
         "skhd_mode_xbar": skhd_mode_xbar,
         "jump_window": jump_window,
+        "close_window": close_window,
         "yabai_toggle_fullscreen": yabai_toggle_fullscreen,
         "generate_skhd": generate_skhd,
     }
