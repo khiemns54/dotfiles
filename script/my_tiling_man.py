@@ -246,7 +246,11 @@ def yabai_jump(direction):
 
 
 def skhd_key_convert(stroke):
-    return stroke.format(SKHD_MAP)
+    for old, new in SKHD_MAP.items():
+        stroke = stroke.replace(old, new)
+
+    return stroke
+
 
 def skdh_send_key(stroke):
         run_cmd("skhd -k \"{}\"".format(skhd_key_convert(stroke)))
@@ -281,6 +285,23 @@ def xbar_refresh_plugin(name):
     cmd = "open -gj \"xbar://app.xbarapp.com/refreshPlugin?path={}\"".format(file)
     run_cmd(cmd)
 
+def generate_skhd():
+    from jinja2 import Environment, FileSystemLoader
+
+    folder = "{}/.dotfiles/skhd".format(os.environ.get("HOME"))
+
+    env = Environment(loader=FileSystemLoader(folder))
+    env.globals["skhd_key_convert"] = skhd_key_convert
+    template = env.get_template("skhd.jinja")
+
+    renderred = template.render(data=CONFIG)
+
+    with open("{}/skhdrc".format(folder), 'w+') as file:
+        file.write(renderred)
+
+
+    print(renderred)
+
 def routing(sub_cmd, args):
     print(sub_cmd, args)
 
@@ -290,6 +311,7 @@ def routing(sub_cmd, args):
         "skhd_mode_xbar": skhd_mode_xbar,
         "jump_window": jump_window,
         "yabai_toggle_fullscreen": yabai_toggle_fullscreen,
+        "generate_skhd": generate_skhd,
     }
 
     func = router.get(sub_cmd, lambda: print("Invalid sub command"))

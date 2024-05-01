@@ -1,82 +1,43 @@
 # ALL MODES
 :: default : my_tiling_man skhd_mode_xbar default
 
-#------titling----------
-:: titling : my_tiling_man skhd_mode_xbar titling
-titling < ctrl - 0 ; default
-titling < escape ; default
+{% for key, mode in data["modes"].items() -%}
+{% if key != "default" -%}
+#------{{- key -}}----------
+:: {{ key }} : my_tiling_man skhd_mode_xbar {{ key }}
+{{ key }} < ctrl - 0 ; default
+{{ key }} < escape ; default
 # Activate from default
-ctrl - ! ; titling
-#------switch_app----------
-:: switch_app : my_tiling_man skhd_mode_xbar switch_app
-switch_app < ctrl - 0 ; default
-switch_app < escape ; default
-# Activate from default
-ctrl - 0x29 ; switch_app
-#------quit----------
-:: quit : my_tiling_man skhd_mode_xbar quit
-quit < ctrl - 0 ; default
-quit < escape ; default
-# Activate from default
-ctrl - q ; quit
-#------slack----------
-:: slack : my_tiling_man skhd_mode_xbar slack
-slack < ctrl - 0 ; default
-slack < escape ; default
-# Activate from default
-ctrl + cmd + shift + alt - s ; slack
-#------yabai----------
-:: yabai : my_tiling_man skhd_mode_xbar yabai
-yabai < ctrl - 0 ; default
-yabai < escape ; default
-# Activate from default
-ctrl - y ; yabai
-#------mouse----------
-:: mouse : my_tiling_man skhd_mode_xbar mouse
-mouse < ctrl - 0 ; default
-mouse < escape ; default
-# Activate from default
-ctrl - m ; mouse
-#------short_cat----------
-:: short_cat : my_tiling_man skhd_mode_xbar short_cat
-short_cat < ctrl - 0 ; default
-short_cat < escape ; default
-# Activate from default
-ctrl - o ; short_cat
-#------intellij----------
-:: intellij : my_tiling_man skhd_mode_xbar intellij
-intellij < ctrl - 0 ; default
-intellij < escape ; default
-# Activate from default
-ctrl + cmd + shift + alt - i ; intellij
+{{ skhd_key_convert(mode["key"]) }} ; {{ key }}
+{% endif -%}
+
+{% endfor -%}
 #-----------------------
 
 # App specific settings
+{% for key, apps in data["app_specifics"].items() -%}
 #-----------------------
-ctrl - w [
-    "IntelliJ IDEA": ctrl + cmd + shift + alt - i
+{{ key }} [
+    {% for app in apps -%}
+         "{{ data["apps"][app["app"]]["name"] }}": {{ data["modes"][app["mode"]]["key"] -}}
+    {% endfor %}
 ]
-#-----------------------
-ctrl - s [
-    "Slack": ctrl + cmd + shift + alt - s
-]
+{% endfor -%}
 #-----------------------
 
 
 ## Switch app
-switch_app < c : my_tiling_man switch_app "Google Chrome"; skhd_default
-switch_app < s : my_tiling_man switch_app "Slack"; skhd_default
-switch_app < t : my_tiling_man switch_app "Terminal"; skhd_default
-switch_app < i : my_tiling_man switch_app "IntelliJ IDEA"; skhd_default
-switch_app < a : my_tiling_man switch_app "Activity Monitor"; skhd_default
+{% for key, app in data["apps"].items() -%}
+switch_app < {{ skhd_key_convert(app["key"]) }} : my_tiling_man switch_app "{{ app["name"] }}"; skhd_default
+{% endfor -%}
+
 ## All mode to switch app
-titling < ctrl - 0x29 ; switch_app
-quit < ctrl - 0x29 ; switch_app
-slack < ctrl - 0x29 ; switch_app
-yabai < ctrl - 0x29 ; switch_app
-mouse < ctrl - 0x29 ; switch_app
-short_cat < ctrl - 0x29 ; switch_app
-intellij < ctrl - 0x29 ; switch_app
+{% for key, mode in data["modes"].items() -%}
+{% if key != "default" and key != "switch_app" -%}
+{{ key }} < {{ skhd_key_convert(data["modes"]["switch_app"]["key"]) }} ; switch_app
+{% endif -%}
+
+{% endfor -%}
 #------------------------
 
 
@@ -232,4 +193,5 @@ intellij < ctrl - j: skhd -k "ctrl  + alt - 0x7D"
 intellij < ctrl - k: skhd -k "ctrl  + alt - 0x7E"
 intellij < ctrl - l: skhd -k "ctrl  + alt - 0x7C"
 intellij < x: skhd -k "ctrl + cmd + alt + shift - h"; skhd_default
+
 

@@ -1,16 +1,43 @@
+---
 modes:
   titling:
     name: Titling
-    key: "ctrl - w"
+    key: "ctrl - !"
   switch_app:
     name: Switch
     key: "ctrl - ;"
+  quit:
+    name: Quit
+    key: "ctrl - q"
+  slack:
+    name: Slack
+    key: "ctrl + cmd + shift + alt - s"
+    apps: ["slack"]
   yabai:
     name: Yabai
     key: "ctrl - y"
+  mouse:
+    name: Mouse
+    key: "ctrl - m"
+  short_cat:
+    name: Cat
+    key: "ctrl - o"
+  intellij:
+    name: "IntellJ"
+    key: "ctrl + cmd + shift + alt - i"
+    apps: ["intellij"]
   default:
     name: "-"
     key: "ctrl - 0"
+
+app_specifics:
+  "ctrl - w":
+      - app: intellij
+        mode: intellij
+  "ctrl - s":
+      - app: slack
+        mode: slack
+
 
 apps:
   chrome:
@@ -26,6 +53,10 @@ apps:
     name: IntelliJ IDEA
     app: IntelliJ IDEA CE
     key: i
+  activity:
+    name: Activity Monitor
+    app: Activity Monitor
+    key: a
 
 xbar:
   skhd_mode:

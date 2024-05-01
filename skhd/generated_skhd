@@ -1,0 +1,77 @@
+# ALL MODES
+:: default : my_tiling_man skhd_mode_xbar default
+
+#------titling----------
+:: titling : my_tiling_man skhd_mode_xbar titling
+titling < ctrl - 0 ; default
+titling < escape ; default
+# Activate from default
+ctrl - w ; titling
+#------switch_app----------
+:: switch_app : my_tiling_man skhd_mode_xbar switch_app
+switch_app < ctrl - 0 ; default
+switch_app < escape ; default
+# Activate from default
+ctrl - 0x29 ; switch_app
+#------quit----------
+:: quit : my_tiling_man skhd_mode_xbar quit
+quit < ctrl - 0 ; default
+quit < escape ; default
+# Activate from default
+ctrl - q ; quit
+#------slack----------
+:: slack : my_tiling_man skhd_mode_xbar slack
+slack < ctrl - 0 ; default
+slack < escape ; default
+# Activate from default
+ctrl - s ; slack
+#------yabai----------
+:: yabai : my_tiling_man skhd_mode_xbar yabai
+yabai < ctrl - 0 ; default
+yabai < escape ; default
+# Activate from default
+ctrl - y ; yabai
+#------mouse----------
+:: mouse : my_tiling_man skhd_mode_xbar mouse
+mouse < ctrl - 0 ; default
+mouse < escape ; default
+# Activate from default
+ctrl - m ; mouse
+#------short_cat----------
+:: short_cat : my_tiling_man skhd_mode_xbar short_cat
+short_cat < ctrl - 0 ; default
+short_cat < escape ; default
+# Activate from default
+ctrl - o ; short_cat
+#------intellij----------
+:: intellij : my_tiling_man skhd_mode_xbar intellij
+intellij < ctrl - 0 ; default
+intellij < escape ; default
+# Activate from default
+ctrl + cmd + shift + alt - i ; intellij
+#-----------------------
+
+# App specific settings
+#-----------------------
+ctrl - w [
+    "IntelliJ IDEA": ctrl + cmd + shift + alt - i]
+#-----------------------
+ctrl - s [
+    "Slack": ctrl - s]
+#-----------------------
+
+
+## Switch app
+switch_app < c : my_tiling_man switch_app "Google Chrome"; skhd_default
+switch_app < s : my_tiling_man switch_app "Slack"; skhd_default
+switch_app < t : my_tiling_man switch_app "Terminal"; skhd_default
+switch_app < i : my_tiling_man switch_app "IntelliJ IDEA"; skhd_default
+## All mode to switch app
+titling < ctrl - 0x29 ; switch_app
+quit < ctrl - 0x29 ; switch_app
+slack < ctrl - 0x29 ; switch_app
+yabai < ctrl - 0x29 ; switch_app
+mouse < ctrl - 0x29 ; switch_app
+short_cat < ctrl - 0x29 ; switch_app
+intellij < ctrl - 0x29 ; switch_app
+#------------------------
