@@ -2,7 +2,7 @@
 modes:
   titling:
     name: Titling
-    key: "ctrl - !"
+    key: "ctrl + shift - 1"
   switch_app:
     name: Switch
     key: "ctrl - ;"

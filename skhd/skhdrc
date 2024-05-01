@@ -6,7 +6,7 @@
 titling < ctrl - 0 ; default
 titling < escape ; default
 # Activate from default
-ctrl - ! ; titling
+ctrl + shift - 1 ; titling
 #------switch_app----------
 :: switch_app : my_tiling_man skhd_mode_xbar switch_app
 switch_app < ctrl - 0 ; default
