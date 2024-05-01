@@ -101,66 +101,10 @@ quit < shift - q : skhd -k "cmd - q"; yabai -m space --focus recent; skhd_defaul
 
 
 #### Slack
-ctrl - s [
-  "slack": skhd -k "ctrl + cmd + shift + alt - s"
-]
+{% with mode="slack", data=data["modes"]["slack"], apps=data["apps"] -%}
+{% include "keymap.jinja" -%}
+{% endwith -%}
 
-# Jump
-slack < p [
-  "slack" : skhd -k "cmd - k"; skhd_default
-]
-
-# Search
-slack < 0x2C [
-  "slack" : skhd -k "cmd - g"; skhd_default
-]
-
-# Home
-slack < shift - h [
-  "slack" : skhd -k "ctrl - 1"; skhd_default
-]
-
-# DM
-slack < d [
-  "slack" : skhd -k "ctrl - 2"; skhd_default
-]
-
-# Activity
-slack < a [
-  "slack" : skhd -k "ctrl - 3"; skhd_default
-]
-
-# Edit last
-slack < shift - e [
-  "slack" : skhd -k "cmd - up"; skhd_default
-]
-
-# Thread
-slack < shift - t [
-  "slack" : skhd -k "cmd + shift - t"; skhd_default
-]
-
-# Next
-slack < shift - n [
-  "slack" : skhd -k "f6"
-]
-
-# Preve
-slack < shift - p [
-  "slack" : skhd -k "shift - f6"
-]
-
-slack < h [
-  "slack": skhd -k "0x7B"
-]
-slack < j [
-  "slack": skhd -k "0x7D"
-]
-slack < k [
-  "slack": skhd -k "0x7E"
-]
-
-#### End Slack
 
 #### Mouse
 
@@ -188,10 +132,9 @@ ctrl - o : skhd -k "ctrl + alt + shift - x"
 
 
 #### Intelij
-intellij < ctrl - h: skhd -k "ctrl  + alt - 0x7B"
-intellij < ctrl - j: skhd -k "ctrl  + alt - 0x7D"
-intellij < ctrl - k: skhd -k "ctrl  + alt - 0x7E"
-intellij < ctrl - l: skhd -k "ctrl  + alt - 0x7C"
+{% with mode="intellij", data=data["modes"]["intellij"], apps=data["apps"] -%}
+{% include "keymap.jinja" -%}
+{% endwith -%}
 intellij < x: skhd -k "ctrl + cmd + alt + shift - h"; skhd_default
 
 

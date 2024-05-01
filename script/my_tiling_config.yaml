@@ -13,6 +13,29 @@ modes:
     name: Slack
     key: "ctrl + cmd + shift + alt - s"
     apps: ["slack"]
+    key_maps:
+      "p":
+        to: "cmd - k"
+      "g":
+        to: "cmd - g"
+      "shift - h":
+        to: "ctrl - 1"
+      "d":
+        to: "ctrl - 2"
+      "a":
+        to: "ctrl - 3"
+      "shift - e":
+        to: "cmd - UP"
+      "t":
+        to: "cmd + shift - t"
+      "h":
+        to: "LEFT"
+      "j":
+        to: "DOWN"
+      "k":
+        to: "UP"
+      "l":
+        to: "DOWN"
   yabai:
     name: Yabai
     key: "ctrl - y"
@@ -25,6 +48,16 @@ modes:
   intellij:
     name: "IntellJ"
     key: "ctrl + cmd + shift + alt - i"
+    key_maps:
+      "ctrl - h": 
+        to: ctrl  + alt - LEFT
+      "ctrl - j":
+        to: ctrl  + alt - DOWN
+      "ctrl - k":
+        to: ctrl  + alt - UP
+      "ctrl - l":
+        to: ctrl  + alt - RIGHT
+
     apps: ["intellij"]
   default:
     name: "-"

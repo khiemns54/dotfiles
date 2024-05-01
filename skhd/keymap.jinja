@@ -1,0 +1,14 @@
+{% for key, map in data["key_maps"].items() -%}
+{% if data["apps"] is not none and data["apps"] | length > 0 -%}
+{{ mode }} < {{ skhd_key_convert(key) }} [
+  {% for app in data["apps" ] -%}
+    "{{ apps[app]["name"] }}" : skhd -k "{{ skhd_key_convert(map["to"]) }}"
+    {%- if not map["skip_default"] -%}
+    ; skhd_default
+    {%- endif %}
+
+  {%- endfor %}
+]
+{% else -%}
+{% endif -%}
+{% endfor -%}
