@@ -299,9 +299,6 @@ def generate_skhd():
     with open("{}/skhdrc".format(folder), 'w+') as file:
         file.write(renderred)
 
-
-    print(renderred)
-
 def routing(sub_cmd, args):
     print(sub_cmd, args)
 
