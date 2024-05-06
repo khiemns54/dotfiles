@@ -24,7 +24,7 @@ YABAI_DIRECTION = {
     "left": "west",
 }
 
-DOTFILES = "{}/.dotfiles/script/my_tiling_config.yaml".format(os.environ.get("HOME"))
+DOTFILES = "{}/.dotfiles/script/my_tiling_config.yaml". format(os.environ.get("HOME"))
 
 
 def main(args):
@@ -170,8 +170,10 @@ def get_window_by_id(window_id):
         raise "Cannot find window: {}".format(window_id)
 
 def open_app(app_name):
-    app = CONFIG.get("apps").get(app_name, {}).get("app", app_name)
-    run_cmd("open -a \"{}\"".format(app))
+    configed_app = [ app for app in CONFIG.get("apps").values() if app["name"] == app_name ][0]
+    if configed_app is not None:
+        app_name = configed_app["app"]
+    run_cmd("open -a \"{}\"".format(app_name))
 
 def yabai_toggle_fullscreen():
     window = get_focus_window()
