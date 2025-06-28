@@ -44,9 +44,13 @@ function _M.config()
     },
     pickers = {
       find_files = {
-        hidden = true,
-        no_ignore = true,
-        follow = true,
+        -- More conservative settings
+        find_command = { "rg", "--files", "--hidden", "--glob", "!.git/*" },
+      },
+      live_grep = {
+        additional_args = function(opts)
+          return {"--hidden", "--glob", "!.git/*"}
+        end
       },
     },
   }

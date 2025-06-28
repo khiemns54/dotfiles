@@ -65,7 +65,7 @@ vim.api.nvim_create_autocmd("CursorHold", {
 })
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, { noremap=true, silent=true })
+vim.keymap.set('n', '<leader>k', vim.diagnostic.open_float, { noremap=true, silent=true })
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { noremap=true, silent=true })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { noremap=true, silent=true })
 vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, { noremap=true, silent=true })
@@ -87,8 +87,9 @@ local servers = {
   'dockerls',
   'html',
   'cssls',
-  'kotlin_lsp',
+  'kotlin_language_server',
   'terraformls',
+  'jsonls',
 }
 
 -- Mason setup with proper handler configuration

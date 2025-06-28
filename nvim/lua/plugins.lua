@@ -47,8 +47,6 @@ require("packer").startup(function()
     requires = 'ryanoasis/vim-devicons',
     config = function()
       vim.cmd[[
-        nmap <C-n> :NERDTreeToggle<CR>
-        nnoremap <silent> <Leader>t :NERDTreeFocus<CR>
         nnoremap <silent> <Leader>f :NERDTreeFind<CR>
         let NERDTreeQuitOnOpen=1
       ]]
@@ -64,6 +62,14 @@ require("packer").startup(function()
   }
 
   use {'glepnir/dashboard-nvim'}
+
+  -- Git Integration
+  use {
+    'lewis6991/gitsigns.nvim',
+    -- Purpose: Git integration with sign column indicators for changes
+    -- Features: show added/modified/deleted lines, stage hunks, blame, etc.
+    config = [[require('modules/gitsigns')]]
+  }
 
   -- Terminal
   use {
@@ -207,3 +213,4 @@ require("packer").startup(function()
 end)
 
 vim.g.dashboard_default_executive = 'telescope'
+

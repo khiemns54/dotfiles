@@ -332,3 +332,4 @@ except Exception as e:
     skhd_switch_mode("default")
     print(e)
     raise e
+
