@@ -19,10 +19,6 @@ cmp.setup({
   mapping = cmp.mapping.preset.insert({
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<CR>'] = cmp.mapping.confirm({ select = true }),
-    
-    -- Use Ctrl+i/j for navigating completion items
-    ['<C-i>'] = cmp.mapping.select_next_item(),
-    ['<C-j>'] = cmp.mapping.select_prev_item(),
   }),
   
   -- Sources prioritized: copilot > lsp > buffer

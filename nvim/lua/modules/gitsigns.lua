@@ -21,9 +21,9 @@ require('gitsigns').setup({
   max_file_length = 10000,
 })
 
--- GitBlame function to toggle blame for whole file navigation
+-- GitBlame function as alias for 'Gitsigns blame'
 function GitBlame()
-  require('gitsigns').toggle_current_line_blame()
+  require('gitsigns').blame()
 end
 
 -- Make it available as a command
