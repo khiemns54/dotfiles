@@ -87,6 +87,8 @@ local servers = {
   'dockerls',
   'html',
   'cssls',
+  'kotlin_lsp',
+  'terraformls',
 }
 
 -- Mason setup with proper handler configuration

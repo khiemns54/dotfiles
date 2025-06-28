@@ -151,7 +151,7 @@ require("packer").startup(function()
       'L3MON4D3/LuaSnip',         -- Snippet engine
       'saadparwaiz1/cmp_luasnip', -- Snippet completion source
     },
-    config = [[require('modules/completion')]]
+    config = [[require('modules/cmp')]]
   }
 
   -- 🤖 AI-Powered Code Assistant
@@ -161,7 +161,12 @@ require("packer").startup(function()
     -- Features: context-aware completions, inline suggestions, chat interface
     cmd = 'Copilot',
     event = 'InsertEnter',
-    config = [[require('modules/copilot')]]
+    config = function ()
+      require('copilot').setup({
+        suggestion = { enabled = false },
+        panel = { enabled = false }
+      })
+    end
   }
 
   use {

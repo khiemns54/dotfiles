@@ -24,7 +24,6 @@ cmd [[
 
 vim.g.mapleader = "s"
 opt.clipboard = "unnamedplus"
--- Conditional true color support
 opt.termguicolors = true
 opt.shortmess:append "c"
 opt.backup = false
@@ -68,24 +67,4 @@ vim.api.nvim_create_user_command('ReloadAll', function()
   require('utils').reload_all()
 end, {
   desc = 'Reload all Neovim configuration and reinstall plugins'
-})
-
--- Quick config reload without plugin operations
-vim.api.nvim_create_user_command('ReloadConfig', function()
-  require('utils').reload_config_only()
-end, {
-  desc = 'Reload Neovim configuration files only (no plugin sync)'
-})
-
--- Convenience aliases
-vim.api.nvim_create_user_command('RA', function()
-  require('utils').reload_all()
-end, {
-  desc = 'Short alias for ReloadAll'
-})
-
-vim.api.nvim_create_user_command('RC', function()
-  require('utils').reload_config_only()
-end, {
-  desc = 'Short alias for ReloadConfig'
 })
