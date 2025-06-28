@@ -33,51 +33,6 @@ require("packer").startup(function()
     end
   }
 
-  use {
-    "hrsh7th/nvim-cmp",
-    config = [[require'modules/cmp']],
-    requires = {
-      "L3MON4D3/LuaSnip",
-      "saadparwaiz1/cmp_luasnip",
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-path",
-      "hrsh7th/cmp-nvim-lua",
-    },
-    run = function()
-      require("modules.cmp").config()
-    end,
-  }
-
-  use { 'kosayoda/nvim-lightbulb',
-    config = function()
-      vim.cmd [[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]]
-    end
-  }
-
-
-  -- Treesitter
-  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate',
-    config = [[require'modules/treesitter']],
-    event = 'BufRead',
-  }
-  use { 'windwp/nvim-ts-autotag', after = 'nvim-treesitter', }
-  use { 'RRethy/nvim-treesitter-textsubjects', after = 'nvim-treesitter'}
-  use { 'nvim-treesitter/playground', after = 'nvim-treesitter', }
-
-  -- Status
-  use {
-    'hoob3rt/lualine.nvim',
-    requires = {
-      'kyazdani42/nvim-web-devicons',
-      opt = true,
-      config = function()
-        require'nvim-web-devicons'.get_icons()
-      end
-    },
-    config = [[require'modules/lualine']]
-  }
-
   -- File manager
   use {
     'kyazdani42/nvim-tree.lua',
@@ -107,21 +62,8 @@ require("packer").startup(function()
     end
   }
 
-  use {
-    "lukas-reineke/indent-blankline.nvim",
-    config = function()
-      require("ibl").setup {
-	indent = { highlight = highlight, char = "|" },
-	whitespace = {
-	    highlight = highlight,
-	    remove_blankline_trail = false,
-	},
-	scope = { enabled = false },
-      }
-    end
-  }
-
   use {'glepnir/dashboard-nvim'}
+
 
   -- Terminal
   use {

@@ -100,18 +100,12 @@ yabai < shift - s : yabai -m window --display west; yabai -m display --focus wes
 yabai < shift - g : yabai -m window --display east; yabai -m display --focus east; skhd_default
 yabai < ctrl - s : skhd -k "alt + cmd - s"
 yabai < ctrl - g : skhd -k "alt + cmd - g"
-yabai < 1 : skhd -k "shift + alt + cmd - 1"; skhd_default
-yabai < 2 : skhd -k "shift + alt + cmd - 2"; skhd_default
-yabai < 3 : skhd -k "shift + alt + cmd - 3"; skhd_default
-yabai < 4 : skhd -k "shift + alt + cmd - 4"; skhd_default
-yabai < 5 : skhd -k "shift + alt + cmd - 5"; skhd_default
-yabai < 6 : skhd -k "shift + alt + cmd - 6"; skhd_default
-yabai < shift - 1 : yabai -m window --space 1; yabai -m window --focus recent; yabai -m space --balance; skhd_default
-yabai < shift - 2 : yabai -m window --space 2; yabai -m window --focus recent; yabai -m space --balance; skhd_default
-yabai < shift - 3 : yabai -m window --space 3; yabai -m window --focus recent; yabai -m space --balance; skhd_default
-yabai < shift - 4 : yabai -m window --space 4; yabai -m window --focus recent; yabai -m space --balance; skhd_default
-yabai < shift - 5 : yabai -m window --space 5; yabai -m window --focus recent; yabai -m space --balance; skhd_default
-yabai < shift - 6 : yabai -m window --space 6; yabai -m window --focus recent; yabai -m space --balance; skhd_default
+yabai < 1 : yabai -m window --space 1; yabai -m window --focus recent; yabai -m space --balance; skhd_default
+yabai < 2 : yabai -m window --space 2; yabai -m window --focus recent; yabai -m space --balance; skhd_default
+yabai < 3 : yabai -m window --space 3; yabai -m window --focus recent; yabai -m space --balance; skhd_default
+yabai < 4 : yabai -m window --space 4; yabai -m window --focus recent; yabai -m space --balance; skhd_default
+yabai < 5 : yabai -m window --space 5; yabai -m window --focus recent; yabai -m space --balance; skhd_default
+yabai < 6 : yabai -m window --space 6; yabai -m window --focus recent; yabai -m space --balance; skhd_default
 
 # Focus recent(^)
 yabai < 0x18 : yabai -m window --focus recent; skhd_default

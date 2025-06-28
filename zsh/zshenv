@@ -49,3 +49,9 @@ skhd_default () {
 my_tiling_man () {
   python $HOME/.dotfiles/script/my_tiling_man.py "$@"
 }
+export DOCKER_HOST="unix://${HOME}/.colima/default/docker.sock"
+export TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE="/var/run/docker.sock"
+
+
+source $HOME/workspace/projects/paypay_script/js.sh
+export SSL_CERT_FILE="/Library/Application Support/Netskope/STAgent/download/nscacert_combined.pem"
