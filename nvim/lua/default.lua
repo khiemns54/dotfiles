@@ -56,6 +56,34 @@ opt.shadafile = "NONE"
 opt.title = true
 opt.foldlevelstart = 99
 opt.so = 1
+opt.completeopt = {'menu', 'menuone', 'noselect'} -- Disable completion to nvim-cmp
+
+-- Error handling and debugging
+opt.verbose = 0                  -- Enable verbose output for debugging
+opt.debug = ''              -- Throw errors with full stack traces
+vim.g.debug = false               -- Enable debug mode
+
+-- Debug toggle function
+local function toggle_debug()
+  if vim.g.debug then
+    -- Turn off debug mode
+    vim.g.debug = false
+    vim.opt.verbose = 0
+    vim.opt.debug = ''
+    print("Debug mode: OFF")
+  else
+    -- Turn on debug mode
+    vim.g.debug = true
+    vim.opt.verbose = 1
+    vim.opt.debug = 'throw'
+    print("Debug mode: ON")
+  end
+end
+
+-- Create user command for debug toggle
+vim.api.nvim_create_user_command('Debug', toggle_debug, {
+  desc = 'Toggle debug mode and error stack traces'
+})
 
 -- ═══════════════════════════════════════════════════════════════════════════════════════
 -- 🔄 CONFIGURATION RELOAD COMMANDS

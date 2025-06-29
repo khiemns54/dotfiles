@@ -1,34 +1,19 @@
 local lspconfig = require('lspconfig')
 
--- LSP settings
-local on_attach = function(client, bufnr)
-  -- Enable completion triggered by <c-x><c-o>
-  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-  -- Mappings
-  local bufopts = { noremap=true, silent=true, buffer=bufnr }
-  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
-  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-  vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-  vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-  -- Add hover documentation keymap
-  vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+-- LSP on_attach function for keymappings
+local function on_attach(client, bufnr)
+  local opts = { noremap = true, silent = true, buffer = bufnr }
   
-  -- Highlight symbol under cursor
-  if client.server_capabilities.documentHighlightProvider then
-    vim.api.nvim_create_augroup("lsp_document_highlight", { clear = true })
-    vim.api.nvim_create_autocmd("CursorHold", {
-      group = "lsp_document_highlight",
-      buffer = bufnr,
-      callback = vim.lsp.buf.document_highlight,
-    })
-    vim.api.nvim_create_autocmd("CursorMoved", {
-      group = "lsp_document_highlight",
-      buffer = bufnr,
-      callback = vim.lsp.buf.clear_references,
-    })
-  end
+  -- LSP keymappings
+  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)         -- Go to definition
+  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)     -- Go to implementation
+  vim.keymap.set('n', 'gu', vim.lsp.buf.references, opts)         -- Go to usage/references
+  vim.keymap.set('n', 'grn', vim.lsp.buf.rename, opts)            -- Rename
+  vim.keymap.set('n', 'ga', vim.lsp.buf.code_action, opts)        -- Show all actions
+  
+  -- Additional helpful mappings
+  vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)               -- Hover documentation
+  vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)  -- Signature help
 end
 
 -- Configure diagnostics
@@ -56,15 +41,12 @@ local servers = {
   'lua_ls',
   'pyright',
   'ts_ls',
-  'rust_analyzer',
-  'clangd',
   'gopls',
   'bashls',
   'jsonls',
   'yamlls',
   'dockerls',
   'html',
-  'cssls',
   'kotlin_language_server',
   'terraformls',
   'jsonls',
@@ -79,8 +61,16 @@ end
 
 mason_lspconfig.setup({
   ensure_installed = servers,
-  automatic_installation = true,
+  automatic_enable = true, -- New setting in v2.0.0
 })
+
+-- Configure all servers with the new native vim.lsp.config API
+for _, server in ipairs(servers) do
+  vim.lsp.config(server, {
+    capabilities = capabilities,
+    on_attach = on_attach,
+  })
+end
 
 -- Sign column symbols
 local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }

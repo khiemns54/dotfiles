@@ -12,7 +12,7 @@ require('gitsigns').setup({
   linehl     = false,
   word_diff  = false,
   watch_gitdir = {
-    follow_files = true
+    follow_files = false
   },
   attach_to_untracked = false,
   current_line_blame = false,
