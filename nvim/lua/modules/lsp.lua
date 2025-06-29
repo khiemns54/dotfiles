@@ -5,9 +5,10 @@ local function on_attach(client, bufnr)
   local opts = { noremap = true, silent = true, buffer = bufnr }
   
   -- LSP keymappings
-  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)         -- Go to definition
+  vim.keymap.set('n', 'gd', require('telescope.builtin').lsp_definitions, opts)         -- Go to definition
   vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)     -- Go to implementation
-  vim.keymap.set('n', 'gu', vim.lsp.buf.references, opts)         -- Go to usage/references
+  vim.keymap.set('n', 'gu', require('telescope.builtin').lsp_references, { noremap = true, silent = true })
+
   vim.keymap.set('n', 'grn', vim.lsp.buf.rename, opts)            -- Rename
   vim.keymap.set('n', 'ga', vim.lsp.buf.code_action, opts)        -- Show all actions
   

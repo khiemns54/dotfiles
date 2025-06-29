@@ -19,6 +19,8 @@ require("packer").startup(function()
     config = [[require'modules/telescope'.config()]],
   }
 
+  use {'nvim-telescope/telescope-ui-select.nvim' }
+
   -- Common
   use {
     "talek/obvious-resize",

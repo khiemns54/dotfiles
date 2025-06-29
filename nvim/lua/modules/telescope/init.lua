@@ -53,7 +53,16 @@ function _M.config()
         end
       },
     },
+    extensions = {
+      ["ui-select"] = {
+        require("telescope.themes").get_dropdown {}
+      }
+    }
   }
+  require("telescope").load_extension("ui-select")
 end
+
+
+
 
 return _M
