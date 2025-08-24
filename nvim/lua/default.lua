@@ -96,3 +96,25 @@ vim.api.nvim_create_user_command('ReloadAll', function()
 end, {
   desc = 'Reload all Neovim configuration and reinstall plugins'
 })
+
+
+-- Default keybindings
+vim.g.mapleader = "s"
+-- Normal mode
+vim.keymap.set("n", "<leader><leader>", "o<ESC>", { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>a", "mi=ip`i<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<Space>", "i<Space><ESC>l", { noremap = true, silent = true })
+
+-- Terminal mode
+vim.keymap.set("t", "<C-n>", "<C-\\><C-n>", { noremap = true, silent = true })
+vim.keymap.set("t", "<C-w>h", "<C-\\><C-n><C-w>h", { noremap = true, silent = true })
+vim.keymap.set("t", "<C-w>j", "<C-\\><C-n><C-w>j", { noremap = true, silent = true })
+vim.keymap.set("t", "<C-w>k", "<C-\\><C-n><C-w>k", { noremap = true, silent = true })
+vim.keymap.set("t", "<C-w>l", "<C-\\><C-n><C-w>l", { noremap = true, silent = true })
+
+-- Command-line mode
+vim.keymap.set("c", "<C-j>", "<C-n>", { noremap = true })
+vim.keymap.set("c", "<C-k>", "<C-p>", { noremap = true })
+
+-- Disable 's' in normal mode
+vim.keymap.set("n", "s", "<NOP>", { noremap = true })

@@ -13,5 +13,5 @@ require("toggleterm").setup {
   start_in_insert = true,
 }
 
-vimp.nnoremap("<leader>c", "<cmd>ToggleTerm<CR>")
-vimp.nnoremap("<leader>C", "<cmd>ToggleTerm direction=horizontal<CR>")
+vim.keymap.set("n", "<leader>c", "<cmd>ToggleTerm<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>C", "<cmd>ToggleTerm direction=horizontal<CR>", { noremap = true, silent = true })

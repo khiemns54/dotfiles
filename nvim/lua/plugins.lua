@@ -6,13 +6,6 @@ require("packer").startup(function()
   use {'wbthomason/packer.nvim', opt = true}
 
   use {
-    'svermeulen/vimpeccable',
-    config = function()
-      require'vimp'.always_override = true
-    end
-  } 
-
-  use {
     'nvim-telescope/telescope.nvim',
     requires = { {'nvim-lua/plenary.nvim'} },
     setup = [[require'modules/telescope'.setup()]],

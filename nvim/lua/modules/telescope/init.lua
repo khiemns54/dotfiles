@@ -1,11 +1,10 @@
 local _M = {}
-local vimp = require("vimp")
 
 function _M.setup()
-  vimp.nnoremap("<leader>p", ":Telescope find_files<cr>")
-  vimp.nnoremap("<leader>g", ":Telescope live_grep<cr>")
-  vimp.nnoremap("<leader>b", ":Telescope buffers<cr>")
-  vimp.nnoremap("<leader>P", ":Telescope<cr>")
+  vim.keymap.set("n", "<leader>p", ":Telescope find_files<cr>", { noremap = true, silent = true })
+  vim.keymap.set("n", "<leader>g", ":Telescope live_grep<cr>", { noremap = true, silent = true })
+  vim.keymap.set("n", "<leader>b", ":Telescope buffers<cr>", { noremap = true, silent = true })
+  vim.keymap.set("n", "<leader>P", ":Telescope<cr>", { noremap = true, silent = true })
 end
 
 function _M.config()

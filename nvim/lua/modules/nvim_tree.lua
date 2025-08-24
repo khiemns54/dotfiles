@@ -1,5 +1,3 @@
-local vimp = require'vimp'
-
 vim.g.nvim_tree_ignore = {
   '.git',
   'node_modules',
@@ -18,5 +16,6 @@ require'nvim-tree'.setup {
   }
 }
 
-vimp.nnoremap("<leader>t", "<esc>:NvimTreeToggle<CR>")
-vimp.nnoremap("<leader>f", "<esc>:NvimTreeFindFile<CR>")
+
+vim.keymap.set("n", "<leader>t", "<esc>:NvimTreeToggle<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>f", "<esc>:NvimTreeFindFile<CR>", { noremap = true, silent = true })
