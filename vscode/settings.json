@@ -1,0 +1,31 @@
+{
+  "vscode-neovim.useWSL": false,
+  "vscode-neovim.highlightGroups.highlights": [
+    {
+      "name": "Search",
+      "scope": "searchEditor.textInputBorder",
+      "settings": {
+        "foreground": "#ff9d00"
+      }
+    }
+  ],
+  "vscode-neovim.leader": "<space>",
+  "vscode-neovim.easymotion": true,
+  "vscode-neovim.incsearch": true,
+  "vscode-neovim.hlsearch": true,
+  "workbench.editor.splitSizing": "distribute",
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/node_modules": true,
+    "**/.cache": true,
+    "**/tmp": true
+  },
+  "files.associations": {
+    "*.jinja": "jinja"
+  }
+}
+
+

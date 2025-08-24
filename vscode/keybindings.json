@@ -1,0 +1,295 @@
+[
+  // File Explorer (NERDTree-like) keybindings
+  {
+    "key": "space t",
+    "command": "workbench.view.explorer",
+    "when": "!explorerViewletFocus"
+  },
+  {
+    "key": "space f",
+    "command": "workbench.action.quickOpen",
+    "when": "!explorerViewletFocus"
+  },
+  {
+    "key": "space r",
+    "command": "workbench.files.action.refreshFilesExplorer",
+    "when": "explorerViewletFocus"
+  },
+  {
+    "key": "space a",
+    "command": "explorer.newFile",
+    "when": "explorerViewletFocus"
+  } ,
+  {
+    "key": "space A",
+    "command": "explorer.newFolder" ,
+    "when": "explorerViewletFocus"
+  },
+  {
+    "key": "space d",
+    "command": "deleteFile",
+    "when": "explorerViewletFocus"
+  },
+  {
+    "key": "space y",
+    "command": "filesExplorer.copy",
+    "when": "explorerViewletFocus"
+  },
+  {
+    "key": "space x",
+    "command": "filesExplorer.cut",
+    "when": "explorerViewletFocus"
+  },
+  {
+    "key": "space p",
+    "command": "filesExplorer.paste",
+    "when": "explorerViewletFocus"
+  },
+  {
+    "key": "space v",
+    "command": "explorer.openToSide",
+    "when": "explorerViewletFocus"
+  },
+  {
+    "key": "space o",
+    "command": "list.toggleExpand",
+    "when": "explorerViewletFocus"
+  },
+  {
+    "key": "space O",
+    "command": "list.expand",
+    "when": "explorerViewletFocus"
+  },
+  {
+    "key": "space c",
+    "command": "list.collapse",
+    "when": "explorerViewletFocus"
+  },
+  {
+    "key": "space C",
+    "command": "list.collapseAllToFocus",
+    "when": "explorerViewletFocus"
+  },
+  {
+    "key": "space m",
+    "command": "list.collapseAll",
+    "when": "explorerViewletFocus"
+  },
+  {
+    "key": "space M",
+    "command": "list.collapseAll",
+    "when": "explorerViewletFocus"
+  },
+  {
+    "key": "space z",
+    "command": "list.toggleExpand",
+    "when": "explorerViewletFocus"
+  },
+  {
+    "key": "space Z",
+    "command": "list.expand",
+    "when": "explorerViewletFocus"
+  },
+  {
+    "key": "space /",
+    "command": "list.toggleKeyboardNavigation",
+    "when": "explorerViewletFocus"
+  },
+  {
+    "key": "escape",
+    "command": "list.toggleKeyboardNavigation",
+    "when": "explorerViewletFocus"
+  },
+  
+  // Window management (similar to your Neovim setup)
+  {
+    "key": "ctrl-w h",
+    "command": "workbench.action.navigateLeft"
+  },
+  {
+    "key": "ctrl-w j",
+    "command": "workbench.action.navigateDown"
+  },
+  {
+    "key": "ctrl-w k",
+    "command": "workbench.action.navigateUp"
+  },
+  {
+    "key": "ctrl-w l",
+    "command": "workbench.action.navigateRight"
+  },
+  {
+    "key": "ctrl-w s",
+    "command": "workbench.action.splitEditorDown"
+  },
+  {
+    "key": "ctrl-w v",
+    "command": "workbench.action.splitEditorRight"
+  },
+  {
+    "key": "ctrl-w q",
+    "command": "workbench.action.closeActiveEditor"
+  },
+  {
+    "key": "ctrl-w o",
+    "command": "workbench.action.closeOtherEditors"
+  },
+  
+  // Tab management
+  {
+    "key": "gt",
+    "command": "workbench.action.nextEditor"
+  },
+  {
+    "key": "gT",
+    "command": "workbench.action.previousEditor"
+  },
+  {
+    "key": "space tn",
+    "command": "workbench.action.newGroup"
+  },
+  {
+    "key": "space tc",
+    "command": "workbench.action.closeGroup"
+  },
+  
+  // Terminal integration (similar to your Neovim setup)
+  {
+    "key": "ctrl-n",
+    "command": "workbench.action.terminal.toggleTerminal",
+    "when": "!terminalFocus"
+  },
+  {
+    "key": "ctrl-n",
+    "command": "workbench.action.terminal.focus",
+    "when": "terminalFocus"
+  },
+  
+  // Telescope-like functionality
+  {
+    "key": "space ff",
+    "command": "workbench.action.quickOpen"
+  },
+  {
+    "key": "space fg",
+    "command": "workbench.action.findInFiles"
+  },
+  {
+    "key": "space fs",
+    "command": "workbench.action.findInFiles"
+  },
+  {
+    "key": "space fb",
+    "command": "workbench.action.quickOpenRecent"
+  },
+  {
+    "key": "space fh",
+    "command": "workbench.action.showAllEditors"
+  },
+  
+  // LSP and code navigation
+  {
+    "key": "gd",
+    "command": "editor.action.revealDefinition"
+  },
+  {
+    "key": "gD",
+    "command": "editor.action.peekDefinition"
+  },
+  {
+    "key": "gf",
+    "command": "editor.action.revealDeclaration"
+  },
+  {
+    "key": "gF",
+    "command": "editor.action.peekDeclaration"
+  },
+  {
+    "key": "gh",
+    "command": "editor.action.showHover"
+  },
+  {
+    "key": "K",
+    "command": "editor.action.showHover"
+  },
+  {
+    "key": "gr",
+    "command": "editor.action.goToReferences"
+  },
+  {
+    "key": "gR",
+    "command": "editor.action.referenceSearch.trigger"
+  },
+  {
+    "key": "space rn",
+    "command": "editor.action.rename"
+  },
+  {
+    "key": "space ca",
+    "command": "editor.action.quickFix"
+  },
+  {
+    "key": "space f",
+    "command": "editor.action.formatDocument"
+  },
+  
+  // Git integration
+  {
+    "key": "space gs",
+    "command": "workbench.view.scm"
+  },
+  {
+    "key": "space gc",
+    "command": "git.commit"
+  },
+  {
+    "key": "space gp",
+    "command": "git.push"
+  },
+  {
+    "key": "space gl",
+    "command": "git.pull"
+  },
+  
+  // Debug and testing
+  {
+    "key": "space dd",
+    "command": "workbench.action.debug.start"
+  },
+  {
+    "key": "space dr",
+    "command": "workbench.action.debug.restart"
+  },
+  {
+    "key": "space ds",
+    "command": "workbench.action.debug.stop"
+  },
+  
+  // Utility commands
+  {
+    "key": "space w",
+    "command": "workbench.action.files.save"
+  },
+  {
+    "key": "space q",
+    "command": "workbench.action.closeWindow"
+  },
+  {
+    "key": "space Q",
+    "command": "workbench.action.quit"
+  },
+  {
+    "key": "space h",
+    "command": "workbench.action.showAllCommands"
+  },
+  {
+    "key": "space /",
+    "command": "workbench.action.findInFiles"
+  },
+  {
+    "key": "space *",
+    "command": "editor.action.addSelectionToNextFindMatch"
+  }
+]
+
+

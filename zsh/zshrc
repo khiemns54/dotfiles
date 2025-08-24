@@ -1,5 +1,9 @@
 export ZSH=$(ls -d ~/.oh-my-zsh)
-plugins=(git)
+plugins=(
+  git
+  zsh-history-substring-search
+  zsh-syntax-highlighting
+)
 source $ZSH/oh-my-zsh.sh
 export DOTFILES="$HOME/.dotfiles"
 source $DOTFILES/khiemnsrc
