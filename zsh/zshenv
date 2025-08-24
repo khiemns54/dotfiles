@@ -57,5 +57,5 @@ source $HOME/workspace/projects/paypay_script/js.sh
 export SSL_CERT_FILE="/Library/Application Support/Netskope/STAgent/download/nscacert_combined.pem"
 
 # Fix terminal color support for Vim/Neovim
-export TERM="xterm-256color"
+# export TERM="xterm-256color"
 export COLORTERM="truecolor"

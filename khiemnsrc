@@ -39,6 +39,8 @@ if hash direnv 2>/dev/null ; then
 fi
 
 
+complete -C aws_completer aws
+
 ssh-add ~/.ssh/id_rsa 2> /dev/null
 
 autoload -Uz colors; colors
@@ -77,3 +79,7 @@ zle -N edit-command-line
 bindkey -v
 bindkey '^R' history-incremental-search-backward
 source <(fzf --zsh)
+
+if [ -z "$TMUX" ] && [ "$TERM" = "xterm-kitty" ]; then
+  tmux attach || exec tmux new-session && exit;
+fi
