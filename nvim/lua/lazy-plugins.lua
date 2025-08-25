@@ -1,21 +1,33 @@
-local packer = require'packer_init'
+-- Lazy.nvim plugin configuration
+-- Migrated from Packer.nvim
 
-vim.cmd[[packadd packer.nvim]]
-
-require("packer").startup(function()
-  use {'wbthomason/packer.nvim', opt = true}
-
-  use {
+return {
+  -- Telescope - Fuzzy Finder
+  {
     'nvim-telescope/telescope.nvim',
-    requires = { {'nvim-lua/plenary.nvim'} },
-    setup = [[require'modules/telescope'.setup()]],
-    config = [[require'modules/telescope'.config()]],
-  }
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    cmd = "Telescope",
+    keys = {
+      { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find files" },
+      { "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "Live grep" },
+      { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
+      { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help tags" },
+    },
+    init = function()
+      require'modules/telescope'.setup()
+    end,
+    config = function()
+      require'modules/telescope'.config()
+    end,
+  },
 
-  use {'nvim-telescope/telescope-ui-select.nvim' }
+  {
+    'nvim-telescope/telescope-ui-select.nvim',
+    dependencies = { 'nvim-telescope/telescope.nvim' },
+  },
 
-  -- Common
-  use {
+  -- Window resize
+  {
     "talek/obvious-resize",
     config = function()
       vim.cmd [[
@@ -26,51 +38,73 @@ require("packer").startup(function()
       nnoremap <silent> <C-L> :<C-U>ObviousResizeRight<CR>
       ]]
     end
-  }
+  },
 
-  -- File manager
-  use {
+  -- File manager - nvim-tree (disabled)
+  {
     'kyazdani42/nvim-tree.lua',
-    disable = true,
-    requires = 'kyazdani42/nvim-web-devicons',
-    config = [[require'modules/nvim_tree']]
-  }
+    enabled = false,
+    dependencies = 'kyazdani42/nvim-web-devicons',
+    config = function()
+      require'modules/nvim_tree'
+    end
+  },
 
-  use {
+  -- File manager - NERDTree
+  {
     'preservim/nerdtree',
-    disable = false,
-    requires = 'ryanoasis/vim-devicons',
+    dependencies = 'ryanoasis/vim-devicons',
+    cmd = { "NERDTree", "NERDTreeFind", "NERDTreeToggle" },
+    keys = {
+      { "<Leader>f", "<cmd>NERDTreeFind<CR>", desc = "Find in NERDTree", silent = true },
+    },
     config = function()
       vim.cmd[[
         nnoremap <silent> <Leader>f :NERDTreeFind<CR>
         let NERDTreeQuitOnOpen=1
       ]]
     end
-  }
+  },
 
-  -- UI
-  use {
+  -- UI - Colorscheme
+  {
     "ellisonleao/gruvbox.nvim",
+    lazy = false,
+    priority = 1000,
     config = function()
       vim.cmd("colorscheme gruvbox")
     end
-  }
+  },
 
-  use {'glepnir/dashboard-nvim'}
+  -- Dashboard
+  {
+    'glepnir/dashboard-nvim',
+    event = 'VimEnter',
+    config = function()
+      vim.g.dashboard_default_executive = 'telescope'
+    end
+  },
 
   -- Git Integration
-  use {
+  {
     'lewis6991/gitsigns.nvim',
-    -- Purpose: Git integration with sign column indicators for changes
-    -- Features: show added/modified/deleted lines, stage hunks, blame, etc.
-    config = [[require('modules/gitsigns')]]
-  }
+    event = { "BufReadPre", "BufNewFile" },
+    config = function()
+      require('modules/gitsigns')
+    end
+  },
 
   -- Terminal
-  use {
+  {
     "akinsho/toggleterm.nvim",
-    config = [[require('modules/terminal')]],
-  }
+    cmd = { "ToggleTerm", "TermExec" },
+    keys = {
+      { "<Leader>c", "<cmd>ToggleTerm<CR>", desc = "Toggle terminal" },
+    },
+    config = function()
+      require('modules/terminal')
+    end,
+  },
 
   --[[
   ═══════════════════════════════════════════════════════════════════════════════════════
@@ -113,99 +147,96 @@ require("packer").startup(function()
   ]]
 
   -- 🔧 LSP Server Management
-  use {
+  {
     'williamboman/mason.nvim',
-    -- Purpose: Package manager for LSP servers, DAP servers, linters, and formatters
-    -- Provides a UI to easily install and manage language tools
+    cmd = { "Mason", "MasonInstall", "MasonUninstall" },
     config = function()
       require('mason').setup()
     end
-  }
+  },
 
-  use {
+  {
     'williamboman/mason-lspconfig.nvim',
-    -- Purpose: Bridge between mason.nvim and lspconfig
-    -- Automatically installs LSP servers and integrates with lspconfig setup
-    after = 'mason.nvim',
-  }
+    dependencies = { 'williamboman/mason.nvim' },
+    event = { "BufReadPre", "BufNewFile" },
+  },
 
   -- 🧠 Core LSP Functionality  
-  use {
+  {
     'neovim/nvim-lspconfig',
-    -- Purpose: Official configurations for Neovim's built-in LSP client
-    -- Provides pre-configured setups for 200+ language servers
-    -- Enables: go-to-definition, hover docs, diagnostics, formatting, etc.
-    after = 'mason-lspconfig.nvim',
-    config = [[require('modules/lsp')]]
-  }
+    dependencies = { 'williamboman/mason-lspconfig.nvim' },
+    event = { "BufReadPre", "BufNewFile" },
+    config = function()
+      require('modules/lsp')
+    end
+  },
 
   -- ⚡ Intelligent Code Completion
-  use {
+  {
     'hrsh7th/nvim-cmp',
-    -- Purpose: Completion engine with multiple sources support
-    -- Features: snippet expansion, fuzzy matching, customizable UI
-    requires = {
+    event = "InsertEnter",
+    dependencies = {
       'hrsh7th/cmp-nvim-lsp',     -- LSP completion source
       'hrsh7th/cmp-buffer',       -- Buffer text completion
-      'hrsh7th/cmp-path',         -- File path completion (update with :PackerSync to fix vim.validate deprecation)
+      'hrsh7th/cmp-path',         -- File path completion
       'hrsh7th/cmp-cmdline',      -- Command line completion
       'L3MON4D3/LuaSnip',         -- Snippet engine
       'saadparwaiz1/cmp_luasnip', -- Snippet completion source
     },
-    config = [[require('modules/cmp')]]
-  }
+    config = function()
+      require('modules/cmp')
+    end
+  },
 
   -- 🤖 AI-Powered Code Assistant
-  use {
+  {
     'zbirenbaum/copilot.lua',
-    -- Purpose: GitHub Copilot integration for AI code suggestions
-    -- Features: context-aware completions, inline suggestions, chat interface
     cmd = 'Copilot',
     event = 'InsertEnter',
-    config = function ()
+    config = function()
       require('copilot').setup({
         suggestion = { enabled = false },
         panel = { enabled = false }
       })
     end
-  }
+  },
 
-  use {
+  {
     'zbirenbaum/copilot-cmp',
-    -- Purpose: Integrates GitHub Copilot suggestions into nvim-cmp
-    -- Allows Copilot suggestions to appear alongside other completion sources
-    after = { 'copilot.lua' },
+    dependencies = { 'zbirenbaum/copilot.lua' },
+    event = "InsertEnter",
     config = function()
       require('copilot_cmp').setup()
     end
-  }
+  },
 
   -- 📝 Enhanced LSP Experience
-  use {
+  {
     'ray-x/lsp_signature.nvim',
-    -- Purpose: Show function signatures while typing
-    -- Features: parameter highlighting, floating window with docs
-    config = [[require('modules/lspsignature')]]
-  }
-
-  -- Removed lsp-status.nvim - replaced with custom implementation in lualine.lua
+    event = { "BufReadPre", "BufNewFile" },
+    config = function()
+      require('modules/lspsignature')
+    end
+  },
 
   -- 📊 Enhanced Status Line with LSP Integration
-  use {
+  {
     'nvim-lualine/lualine.nvim',
-    -- Purpose: Fast and configurable statusline with LSP information
-    -- Features: shows active LSP servers, diagnostics, progress, current function
-    requires = { 'kyazdani42/nvim-web-devicons', opt = true },
-    config = [[require('modules/lualine')]]
-  }
+    event = "VeryLazy",
+    dependencies = { 'kyazdani42/nvim-web-devicons' },
+    config = function()
+      require('modules/lualine')
+    end
+  },
 
   -- Treesitter for better syntax highlighting
-  use {
+  {
     'nvim-treesitter/nvim-treesitter',
-    run = ':TSUpdate',
-    config = [[require('modules/treesitter')]]
-  }
-end)
-
-vim.g.dashboard_default_executive = 'telescope'
+    event = { "BufReadPre", "BufNewFile" },
+    build = ':TSUpdate',
+    config = function()
+      require('modules/treesitter')
+    end
+  },
+}
 

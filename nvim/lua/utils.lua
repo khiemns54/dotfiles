@@ -6,14 +6,7 @@ function M.prequire(...)
   return nil
 end
 
-function M.packer_lazy_load(plugin, timer)
-  if plugin then
-    timer = timer or 0
-    vim.defer_fn(function()
-      require("packer").loader(plugin)
-    end, timer)
-  end
-end
+-- Removed packer_lazy_load - Lazy.nvim handles lazy loading automatically
 
 function M.disable_builtins(plugs)
   for _, plug in pairs(plugs) do
@@ -51,8 +44,7 @@ end
 function M.clear_autocmds()
   -- Clear potentially conflicting autocommands
   vim.cmd('autocmd!')
-  -- Clear packer autocommands specifically
-  vim.cmd('augroup packer_auto_compile | autocmd! | augroup END')
+  -- Lazy.nvim handles autocommands automatically, no need to clear specific groups
 end
 
 function M.reload_config()
@@ -63,7 +55,7 @@ function M.reload_config()
   M.clear_autocmds()
   
   -- Reload core configuration files
-  local config_files = {'default', 'plugins', 'keybinding'}
+  local config_files = {'default', 'lazy-plugins'}
   
   for _, config in ipairs(config_files) do
     local ok, err = pcall(require, config)
@@ -87,23 +79,23 @@ function M.reload_all()
   end
   
   -- Step 2: Reinstall and sync plugins
-  vim.notify("📦 Syncing plugins with Packer...", vim.log.levels.INFO)
+  vim.notify("📦 Syncing plugins with Lazy.nvim...", vim.log.levels.INFO)
   
-  -- Ensure packer is available
-  local packer_ok, packer = pcall(require, 'packer')
-  if not packer_ok then
-    vim.notify("❌ Packer not available!", vim.log.levels.ERROR)
+  -- Ensure lazy is available
+  local lazy_ok, lazy = pcall(require, 'lazy')
+  if not lazy_ok then
+    vim.notify("❌ Lazy.nvim not available!", vim.log.levels.ERROR)
     return
   end
   
   -- Clean, install, and sync plugins
   vim.defer_fn(function()
-    packer.clean()
+    lazy.clean()
     vim.defer_fn(function()
-      packer.sync()
+      lazy.sync()
       vim.defer_fn(function()
         vim.notify("✅ Configuration reload complete! All plugins synced.", vim.log.levels.INFO)
-        vim.notify("💡 If you see any errors, try running :PackerSync manually", vim.log.levels.WARN)
+        vim.notify("💡 If you see any errors, try running :Lazy sync manually", vim.log.levels.WARN)
       end, 1000)
     end, 1000)
   end, 500)
