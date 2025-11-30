@@ -11,6 +11,10 @@ alias cls="tmux clear-history; clear"
 alias reload="exec $SHELL"
 alias vi="nvim"
 
+export ANTHROPIC_MODEL="jp.anthropic.claude-sonnet-4-5-20250929-v1:0"
+export ANTHROPIC_SMALL_MODEL="anthropic.claude-3-5-sonnet-20240620-v1:0"
+alias claude="CLAUDE_CODE_USE_BEDROCK=1 AWS_REGION=ap-northeast-1 AWS_PROFILE=paypay-claude-cli-sso ~/.local/bin/claude"
+
 set -o ignoreeof
 
 export LC_ALL=en_US.UTF-8
