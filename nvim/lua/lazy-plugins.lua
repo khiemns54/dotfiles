@@ -21,6 +21,34 @@ return {
     end,
   },
 
+  -- Inline images (Kitty graphics protocol) for Markdown
+  {
+    '3rd/image.nvim',
+    ft = { 'markdown' },
+    opts = {
+      backend = 'kitty',
+      integrations = {
+        markdown = {
+          enabled = true,
+          clear_in_insert_mode = false,
+          download_remote_images = false,
+          only_render_image_at_cursor = false,
+        },
+      },
+      max_width = 80,
+      max_height = 40,
+      max_width_window_percentage = 50,
+      window_overlap_clear_enabled = true,
+      editor_only_render_when_focused = true,
+    },
+  },
+
+  -- PlantUML syntax (for fenced code blocks and .puml files)
+  {
+    'aklt/plantuml-syntax',
+    ft = { 'plantuml', 'uml', 'markdown' },
+  },
+
   {
     'nvim-telescope/telescope-ui-select.nvim',
     dependencies = { 'nvim-telescope/telescope.nvim' },
