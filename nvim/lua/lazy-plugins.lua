@@ -1,4 +1,4 @@
--- Lazy.nvim plugin configuration
+
 -- Migrated from Packer.nvim
 
 return {
@@ -246,6 +246,118 @@ return {
     config = function ()
       require("ibl").setup()
     end
+  },
+
+  {
+    "yetone/avante.nvim",
+    event = "VeryLazy",
+    build = "make",
+    version = false,
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+      "nvim-tree/nvim-web-devicons",
+      "stevearc/dressing.nvim",
+      "nvim-telescope/telescope.nvim",
+      "hrsh7th/nvim-cmp",
+      {
+        "HakonHarnes/img-clip.nvim",
+        event = "VeryLazy",
+        opts = {
+          default = {
+            embed_image_as_base64 = false,
+            prompt_for_file_name = false,
+            drag_and_drop = {
+              insert_mode = true,
+            },
+            use_absolute_path = true,
+          },
+        },
+      },
+      {
+        'MeanderingProgrammer/render-markdown.nvim',
+        opts = {
+          file_types = { "markdown", "Avante" },
+        },
+        ft = { "markdown", "Avante" },
+      },
+    },
+    config = function()
+      require('avante').setup({
+        -- Use claude-code as the default provider (via ACP)
+        provider = "codex",
+
+        -- Native provider configurations (fallback option)
+        --providers = {
+        --  bedrock = {
+        --    model = "jp.anthropic.claude-sonnet-4-5-20250929-v1:0",
+        --    aws_profile = "paypay-claude-cli-sso",
+        --    aws_region = "ap-northeast-1",
+        --    timeout = 30000, -- Timeout in milliseconds
+        --  },
+        --},
+
+        -- ACP provider configurations
+        acp_providers = {
+          ["codex"] = {
+            command = "npx",
+            args = { "@zed-industries/codex-acp" },
+            env = {
+              NODE_NO_WARNINGS = "1",
+            },
+          },
+          ["claude-code"] = {
+            command = "npx",
+            args = { "@zed-industries/claude-code-acp" },
+            env = {
+              NODE_NO_WARNINGS = "1",
+              -- Use Bedrock instead of direct API
+              CLAUDE_CODE_USE_BEDROCK = "1",
+              AWS_REGION = "ap-northeast-1",
+              AWS_PROFILE = "paypay-claude-cli-sso",
+              ANTHROPIC_MODEL="jp.anthropic.claude-sonnet-4-5-20250929-v1:0",
+              ANTHROPIC_SMALL_MODEL="anthropic.claude-3-5-sonnet-20240620-v1:0",
+            },
+          },
+        },
+
+        -- Behavior settings
+        behaviour = {
+          auto_suggestions = false,
+          auto_set_highlight_group = true,
+          auto_set_keymaps = false, -- Disable default keymaps as requested
+          auto_apply_diff_after_generation = false,
+          support_paste_from_clipboard = true,
+          minimize_diff = true,
+          enable_token_counting = true,
+          auto_add_current_file = true,
+          auto_approve_tool_permissions = true,
+          confirmation_ui_style = "inline_buttons",
+          acp_follow_agent_locations = true,
+        },
+
+        -- Project-specific instructions file
+        instructions_file = "avante.md",
+
+        -- Window settings
+        windows = {
+          position = "right",
+          wrap = true,
+          width = 35,
+          sidebar_header = {
+            align = "center",
+            rounded = true,
+          },
+        },
+
+        -- Highlight settings
+        highlights = {
+          diff = {
+            current = "DiffText",
+            incoming = "DiffAdd"
+          },
+        },
+      })
+    end,
   }
 }
-

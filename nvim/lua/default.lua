@@ -35,6 +35,7 @@ opt.updatetime = 250
 opt.timeoutlen = 500
 opt.signcolumn = "yes"
 opt.autowrite = true
+opt.autowriteall = true  -- Auto-save on buffer switch, like IntelliJ
 opt.autoread = true
 opt.hidden = true
 opt.hlsearch = true
@@ -116,3 +117,105 @@ vim.keymap.set("c", "<C-k>", "<C-p>", { noremap = true })
 
 -- Disable 's' in normal mode
 vim.keymap.set("n", "s", "<NOP>", { noremap = true })
+
+-- ═══════════════════════════════════════════════════════════════════════════════════════
+-- 💾 AUTO-SAVE & AUTO-RELOAD (IntelliJ-like behavior)
+-- ═══════════════════════════════════════════════════════════════════════════════════════
+
+-- Auto-save group
+vim.api.nvim_create_augroup('AutoSave', { clear = true })
+
+-- Auto-save on focus lost, buffer leave, and cursor hold
+vim.api.nvim_create_autocmd({'FocusLost', 'BufLeave', 'CursorHold'}, {
+  group = 'AutoSave',
+  pattern = '*',
+  callback = function()
+    -- Only save if buffer is modifiable, modified, and has a filename
+    if vim.bo.modifiable and vim.bo.modified and vim.fn.expand('%') ~= '' then
+      pcall(function()
+        vim.cmd('silent! write')
+      end)
+    end
+  end,
+  desc = 'Auto-save buffer on focus lost, buffer leave, or cursor hold'
+})
+
+-- Auto-reload group with conflict detection
+vim.api.nvim_create_augroup('AutoReload', { clear = true })
+
+-- Check for external changes when entering buffer or gaining focus
+vim.api.nvim_create_autocmd({'FocusGained', 'BufEnter', 'CursorHold'}, {
+  group = 'AutoReload',
+  pattern = '*',
+  callback = function()
+    -- Only check if buffer has a filename
+    if vim.fn.expand('%') ~= '' then
+      pcall(function()
+        -- Check if file has changed on disk
+        vim.cmd('checktime')
+      end)
+    end
+  end,
+  desc = 'Auto-reload buffer when file changes externally'
+})
+
+-- Handle file change notification with conflict detection
+vim.api.nvim_create_autocmd('FileChangedShellPost', {
+  group = 'AutoReload',
+  pattern = '*',
+  callback = function()
+    vim.notify('File changed on disk. Buffer reloaded.', vim.log.levels.WARN)
+  end,
+  desc = 'Notify when file is reloaded due to external changes'
+})
+
+-- Warn before reloading if there are unsaved changes (conflict detection)
+vim.api.nvim_create_autocmd('FileChangedShell', {
+  group = 'AutoReload',
+  pattern = '*',
+  callback = function()
+    if vim.bo.modified then
+      -- File has unsaved changes and external changes - prompt user
+      vim.notify('Warning: File has changed on disk and you have unsaved changes!', vim.log.levels.ERROR)
+      local choice = vim.fn.confirm(
+        'File has changed on disk. Current buffer has unsaved changes.\n' ..
+        'What do you want to do?',
+        '&Load File\n&Keep Buffer\n&Diff',
+        2
+      )
+
+      if choice == 1 then
+        -- Load file from disk (discard buffer changes)
+        vim.cmd('edit!')
+        vim.notify('Buffer reloaded from disk. Your changes were discarded.', vim.log.levels.WARN)
+      elseif choice == 2 then
+        -- Keep buffer changes
+        vim.notify('Keeping buffer changes. File on disk was not loaded.', vim.log.levels.INFO)
+      elseif choice == 3 then
+        -- Show diff
+        vim.cmd('DiffOrig')
+        vim.notify('Showing diff. Use :diffoff to exit diff mode.', vim.log.levels.INFO)
+      end
+
+      return true  -- Prevent default behavior
+    end
+  end,
+  desc = 'Confirm action when file changes externally and buffer is modified'
+})
+
+-- Create DiffOrig command to show diff between buffer and file on disk
+vim.api.nvim_create_user_command('DiffOrig', function()
+  local filetype = vim.bo.filetype
+  vim.cmd('vertical new')
+  vim.cmd('set buftype=nofile')
+  vim.cmd('read ++edit #')
+  vim.cmd('0d_')
+  vim.cmd('diffthis')
+  vim.cmd('wincmd p')
+  vim.cmd('diffthis')
+  if filetype ~= '' then
+    vim.cmd('set filetype=' .. filetype)
+  end
+end, {
+  desc = 'Show diff between current buffer and file on disk'
+})
