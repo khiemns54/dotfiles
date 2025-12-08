@@ -345,6 +345,7 @@ return {
               AWS_PROFILE = "paypay-claude-cli-sso",
               ANTHROPIC_MODEL="jp.anthropic.claude-sonnet-4-5-20250929-v1:0",
               ANTHROPIC_SMALL_MODEL="anthropic.claude-3-5-sonnet-20240620-v1:0",
+              ANTHROPIC_DEFAULT_SONNET_MODEL="jp.anthropic.claude-sonnet-4-5-20250929-v1:0",
             },
           },
         },
@@ -365,7 +366,7 @@ return {
         },
 
         -- Project-specific instructions file
-        instructions_file = "avante.md",
+        instructions_file = "AGENTS.md",
 
         -- Window settings
         windows = {
