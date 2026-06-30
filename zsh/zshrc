@@ -11,3 +11,17 @@ source $DOTFILES/zsh/auto_complete
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export PATH="$HOME/Library/Python/3.9/bin:$PATH"
+
+# opencode / cursor-acp
+export PATH=/Users/khiemns/.opencode/bin:$PATH
+export CURSOR_ACP_FORCE=false
+export CURSOR_ACP_BACKEND=sdk
+export CURSOR_ACP_MCP_BRIDGE=false
+export CURSOR_AGENT_EXECUTABLE="${HOME}/.local/bin/agent"
+export SSL_CERT_FILE="/Library/Application Support/Netskope/STAgent/download/nscacert_combined.pem"
+export NODE_EXTRA_CA_CERTS="/Library/Application Support/Netskope/STAgent/download/nscacert_combined.pem"
+[ -f "${HOME}/.config/opencode/cursor.env" ] && . "${HOME}/.config/opencode/cursor.env"
+
+# Qwen Code PATH block begin
+export PATH='/Users/khiemns/.local/bin':$PATH
+# Qwen Code PATH block end

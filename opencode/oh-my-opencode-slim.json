@@ -1,0 +1,95 @@
+{
+  "$schema": "https://unpkg.com/oh-my-opencode-slim@latest/oh-my-opencode-slim.schema.json",
+  "preset": "custom",
+  "presets": {
+    "custom": {
+      "orchestrator": {
+        "model": "openai/gpt-5.5",
+        "skills": ["*"],
+        "mcps": ["*"]
+      },
+      "oracle": {
+        "model": "openai/gpt-5.5",
+        "variant": "high",
+        "skills": ["*"],
+        "mcps": ["*"]
+      },
+      "librarian": {
+        "model": "openai/gpt-5.4-mini",
+        "variant": "low",
+        "skills": ["*"],
+        "mcps": ["*"]
+      },
+      "explorer": {
+        "model": "openai/gpt-5.4-mini",
+        "variant": "low",
+        "skills": ["*"],
+        "mcps": ["*"]
+      },
+      "designer": {
+        "model": "openai/gpt-5.4-mini",
+        "variant": "medium",
+        "skills": ["*"],
+        "mcps": ["*"]
+      },
+      "fixer": {
+        "model": "openai/gpt-5.4-mini",
+        "variant": "low",
+        "skills": ["*"],
+        "mcps": ["*"]
+      }
+    }
+  },
+  "council": {
+    "presets": {
+      "default": {
+        "councillor-1": {
+          "model": "openai/gpt-5.5",
+          "variant": "high"
+        },
+        "councillor-2": {
+          "model": "openai/gpt-5.5",
+          "variant": "high"
+        },
+        "councillor-3": {
+          "model": "openai/gpt-5.5",
+          "variant": "high"
+        }
+      }
+    },
+    "default_preset": "default",
+    "councillor_execution_mode": "parallel",
+    "master": {
+      "model": "openai/gpt-5.5",
+      "variant": "high"
+    }
+  },
+  "agents": {
+    "oracle": {
+      "skills": ["*"],
+      "mcps": ["*"]
+    },
+    "librarian": {
+      "skills": ["*"],
+      "mcps": ["*"]
+    },
+    "explorer": {
+      "skills": ["*"],
+      "mcps": ["*"]
+    },
+    "designer": {
+      "skills": ["*"],
+      "mcps": ["*"]
+    },
+    "fixer": {
+      "skills": ["*"],
+      "mcps": ["*"]
+    }
+  },
+  "disabled_mcps": ["websearch"],
+  "multiplexer": {
+    "type": "none",
+    "layout": "main-vertical",
+    "main_pane_size": 60
+  }
+}

@@ -4,7 +4,10 @@ config/databar_service_account_key.json
 config/gcp_databar_service_account_key.json
 .tags
 .tags1
-cache
+# Cache directories (but not source code with 'cache' in path)
+/.cache/
+.cache/
+**/node_modules/.cache/
 .byebug_history
 *.swp
 *.swo
@@ -17,3 +20,4 @@ bin
 .settings
 .envrc
 .kotlin
+kls_database.db

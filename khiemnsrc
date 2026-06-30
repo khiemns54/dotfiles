@@ -1,11 +1,37 @@
 # set -o vi
 
+# Load environment variables from unified .env file
+if [ -f "$DOTFILES/.env" ]; then
+  source "$DOTFILES/.env"
+fi
+
 git config --global core.excludesfile $DOTFILES/git/gitignore
 
 export EDITOR="$(which nvim)"
 
 alias ws="cd ~/workspace/projects"
-alias gitclean="git fetch; git branch --merged | egrep -v '(^\*|master|dev)' | xargs git branch -d"
+gitclean() {
+  git fetch --prune
+
+  local repo_root
+  repo_root="$(git rev-parse --show-toplevel 2>/dev/null)" || return 0
+
+  if [ -f "$repo_root/scripts/cleanup-merged-worktrees.py" ]; then
+    python3 "$repo_root/scripts/cleanup-merged-worktrees.py"
+  fi
+
+  git for-each-ref --format='%(refname:short)' --merged=HEAD refs/heads | while read -r branch; do
+    case "$branch" in
+      ""|master|main|dev)
+        continue
+        ;;
+    esac
+    if git worktree list --porcelain | grep -Fq "branch refs/heads/$branch"; then
+      continue
+    fi
+    git branch -d "$branch"
+  done
+}
 alias gitclear="git branch | grep -v "master" | xargs git branch -D "
 alias cls="tmux clear-history; clear"
 alias reload="exec $SHELL"
@@ -25,6 +51,7 @@ export PATH="$HOME/.local/bin:$PATH"
 export PATH="/usr/local/go/bin:$PATH"
 export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/opt/openssl/lib/
 export PATH="$PATH:$HOME/.cargo/bin"
+export NODE_EXTRA_CA_CERTS="/Library/Application Support/Netskope/STAgent/download/nscacert_combined.pem"
 
 export JAVA_HOME=$(/usr/libexec/java_home)
 

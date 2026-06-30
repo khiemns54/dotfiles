@@ -1,9 +1,3 @@
-[submodule "vim/bundle/Vundle.vim"]
-	path = vim/bundle/Vundle.vim
-	url = https://github.com/VundleVim/Vundle.vim.git
-[submodule "vim/bundle/vim-plug"]
-	path = vim/.bundle/vim-plug
-	url = git@github.com:junegunn/vim-plug.git
 [submodule "tmux/.tmux"]
 	path = tmux/.tmux
 	url = https://github.com/gpakosz/.tmux.git
@@ -22,12 +16,6 @@
 [submodule "others/powerline"]
 	path = others/powerline
 	url = https://github.com/powerline/fonts
-[submodule "vim/.bundle/kotlin-language-server"]
-	path = vim/.bundle/kotlin-language-server
-	url = git@github.com:fwcd/kotlin-language-server.git
-[submodule "vim/coc/lsp/kotlin-language-server"]
-	path = vim/coc/lsp/kotlin-language-server
-	url = git@github.com:fwcd/kotlin-language-server.git
 [submodule "lsp/kotlin/kotlin-language-server"]
 	path = lsp/kotlin/kotlin-language-server
 	url = git@github.com:fwcd/kotlin-language-server.git

@@ -2,35 +2,137 @@
 #
 cws (){
   BASE_WS="$HOME/workspace/projects"
-  DES="$1"
-  ABS_PATH="$BASE_WS/$DES"
   MAIN="main"
 
-  if [ ! -d "$ABS_PATH" ]
-  then
-    echo "Folder [$ABS_PATH] does not exist"
-    return 1
+  # Mode 2: cws <source> <new-worktree> — create worktree then open
+  if [[ -n "$2" ]]; then
+    local SRC="$1"
+    local DES="$2"
+    local SRC_PATH="$BASE_WS/$SRC"
+    local ABS_PATH="$BASE_WS/$DES"
+
+    if [ ! -d "$SRC_PATH" ]; then
+      echo "Source folder [$SRC_PATH] does not exist"
+      return 1
+    fi
+
+    if [ ! -d "$SRC_PATH/.git" ] && [ ! -f "$SRC_PATH/.git" ]; then
+      echo "Source folder [$SRC_PATH] is not a git repository"
+      return 1
+    fi
+
+    # If destination already exists, just open it in tmux
+    if [ ! -d "$ABS_PATH" ]; then
+      echo "Fetching latest from origin..."
+      git -C "$SRC_PATH" fetch origin || { echo "Failed to fetch origin"; return 1; }
+
+      # Detect default branch from origin
+      local DEFAULT_BRANCH
+      DEFAULT_BRANCH=$(git -C "$SRC_PATH" symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's|refs/remotes/origin/||')
+      if [[ -z "$DEFAULT_BRANCH" ]]; then
+        DEFAULT_BRANCH=$(git -C "$SRC_PATH" remote show origin 2>/dev/null | awk '/HEAD branch/ {print $NF}')
+      fi
+      if [[ -z "$DEFAULT_BRANCH" ]]; then
+        echo "Could not detect default branch for origin"
+        return 1
+      fi
+
+      echo "Creating worktree [$DES] from origin/$DEFAULT_BRANCH..."
+      git -C "$SRC_PATH" worktree add "$ABS_PATH" -b "$DES" "origin/$DEFAULT_BRANCH" || { echo "Failed to create worktree"; return 1; }
+      echo "Worktree created at [$ABS_PATH]"
+    else
+      echo "Folder [$ABS_PATH] already exists, opening in tmux"
+    fi
+  else
+    # Mode 1: cws <project> — open existing project
+    local DES="$1"
+    local ABS_PATH="$BASE_WS/$DES"
+
+    if [ ! -d "$ABS_PATH" ]; then
+      echo "Folder [$ABS_PATH] does not exist"
+      return 1
+    fi
   fi
 
+  if [[ -n "${CMUX_WORKSPACE_ID:-}" || -n "${CMUX_SURFACE_ID:-}" ]]; then
+    if ! command -v cmux >/dev/null 2>&1; then
+      echo "cmux CLI is required when running inside cmux"
+      return 1
+    fi
+
+    local find_cmux_workspace_by_name
+    find_cmux_workspace_by_name() {
+      cmux list-workspaces --json 2>/dev/null | python3 -c '
+import json
+import sys
+
+target = sys.argv[1]
+
+try:
+    data = json.load(sys.stdin)
+except Exception:
+    sys.exit(1)
+
+def walk(value):
+    if isinstance(value, dict):
+        if value.get("title") == target or value.get("name") == target:
+            workspace_id = value.get("id") or value.get("ref") or value.get("uuid")
+            if workspace_id:
+                print(workspace_id)
+                sys.exit(0)
+        for child in value.values():
+            walk(child)
+    elif isinstance(value, list):
+        for child in value:
+            walk(child)
+
+walk(data)
+sys.exit(1)
+' "$1"
+    }
+
+    local CMUX_WORKSPACE
+    CMUX_WORKSPACE=$(find_cmux_workspace_by_name "$DES")
+
+    if [[ -n "$CMUX_WORKSPACE" ]]; then
+      echo "Cmux: jump to workspace [$DES]"
+      cmux select-workspace --workspace "$CMUX_WORKSPACE"
+    else
+      echo "Cmux: create workspace [$DES]"
+      cmux new-workspace --name "$DES" --cwd "$ABS_PATH" || return 1
+
+      CMUX_WORKSPACE=$(find_cmux_workspace_by_name "$DES")
+      if [[ -n "$CMUX_WORKSPACE" ]]; then
+        echo "Cmux: jump to workspace [$DES]"
+        cmux select-workspace --workspace "$CMUX_WORKSPACE"
+      else
+        echo "Cmux: created workspace [$DES] but could not resolve its id"
+        return 1
+      fi
+    fi
+    return $?
+  fi
+
+  # Common tmux logic for both modes
   if ! ( tmux ls | grep -q "$MAIN" )
   then
     echo "Create new $MAIN session"
-    tmux new -s $MAIN -d -c $ABS_PATH -n $DES
+    tmux new -s $MAIN -d -c "$ABS_PATH" -n "$DES"
   fi
 
   if ! ( tmux list-windows -t $MAIN -F "#{window_name}" | grep -x "$DES" )
   then
     echo "Create new windows $DES"
-    tmux new-window -t $MAIN -n $DES -c $ABS_PATH
+    tmux new-window -t $MAIN -n "$DES" -c "$ABS_PATH"
   fi
 
   if [[ "$TMUX" = "" ]]
   then
     echo "Tmux: attach session [$MAIN]"
-    tmux attach -t $MAIN\; select-window -t $DES
+    tmux attach -t $MAIN\; select-window -t "$DES"
   else
     echo "Tmux: jump to window [$DES]"
-    tmux select-window -t $DES
+    tmux select-window -t "$DES"
   fi
 }
 
@@ -38,24 +140,17 @@ xbar_refresh () {
   open -gj "xbar://app.xbarapp.com/refreshPlugin?path=$1"
 }
 
-xbar_yabai_refresh () {
-  xbar_refresh yabai
-}
-
-skhd_default () {
-  my_tiling_man skhd_switch_mode default
-}
-
-my_tiling_man () {
-  python $HOME/.dotfiles/script/my_tiling_man.py "$@"
-}
 export DOCKER_HOST="unix://${HOME}/.colima/default/docker.sock"
 export TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE="/var/run/docker.sock"
 
 
-source $HOME/workspace/projects/paypay_script/js.sh
+source $HOME/workspace/projects/payout-dev-tools/local/scripts/stg_js_port_forward.sh
 export SSL_CERT_FILE="/Library/Application Support/Netskope/STAgent/download/nscacert_combined.pem"
+export NODE_EXTRA_CA_CERTS="/Library/Application Support/Netskope/STAgent/download/nscacert_combined.pem"
+export REQUESTS_CA_BUNDLE="/Library/Application Support/Netskope/STAgent/download/nscacert_combined.pem"
+export CLOUDSDK_CORE_CUSTOM_CA_CERTS_FILE="/Library/Application Support/Netskope/STAgent/download/nscacert_combined.pem"
 
 # Fix terminal color support for Vim/Neovim
 # export TERM="xterm-256color"
 export COLORTERM="truecolor"
+. "$HOME/.cargo/env"

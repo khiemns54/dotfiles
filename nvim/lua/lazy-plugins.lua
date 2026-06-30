@@ -54,18 +54,164 @@ return {
     dependencies = { 'nvim-telescope/telescope.nvim' },
   },
 
-  -- Window resize
+  -- Auto-resize focused window (golden ratio)
+  -- Only visible with multiple editor splits (e.g. :vs), not with edge panels.
   {
-    "talek/obvious-resize",
+    "nvim-focus/focus.nvim",
+    version = false,
+    lazy = false,
     config = function()
-      vim.cmd [[
-      let g:obvious_resize_default = 10
-      nnoremap <silent> <C-K> :<C-U>ObviousResizeUp<CR>
-      nnoremap <silent> <C-J> :<C-U>ObviousResizeDown<CR>
-      nnoremap <silent> <C-H> :<C-U>ObviousResizeLeft<CR>
-      nnoremap <silent> <C-L> :<C-U>ObviousResizeRight<CR>
-      ]]
-    end
+      require("focus").setup({
+        autoresize = {
+          enable = true,
+          minwidth = 10,
+          minheight = 5,
+        },
+        ui = {
+          cursorline = false,
+          signcolumn = false,
+        },
+      })
+
+      -- Disable focus autoresize for edgy-managed filetypes so they
+      -- stay at the size edgy.nvim assigns them.
+      local ignore_filetypes = { "nerdtree", "toggleterm", "opencode_terminal", "qf", "dashboard" }
+      local ignore_buftypes = { "nofile", "prompt", "popup", "terminal" }
+
+      local augroup = vim.api.nvim_create_augroup("FocusDisable", { clear = true })
+      vim.api.nvim_create_autocmd("WinEnter", {
+        group = augroup,
+        callback = function()
+          if vim.tbl_contains(ignore_buftypes, vim.bo.buftype) then
+            vim.w.focus_disable = true
+          end
+        end,
+        desc = "Disable focus autoresize for BufType",
+      })
+      vim.api.nvim_create_autocmd("FileType", {
+        group = augroup,
+        callback = function()
+          if vim.tbl_contains(ignore_filetypes, vim.bo.filetype) then
+            vim.b.focus_disable = true
+          end
+        end,
+        desc = "Disable focus autoresize for FileType",
+      })
+    end,
+  },
+
+  -- Layout manager - fixed IDE-like pane positions
+  -- Left: NERDTree | Center: Editor | Bottom: Terminal | Right: OpenCode
+  -- Focused panel grows, unfocused shrinks back to default via edgy_width/edgy_height.
+  {
+    "folke/edgy.nvim",
+    event = "VeryLazy",
+    init = function()
+      vim.opt.laststatus = 3
+      vim.opt.splitkeep = "screen"
+    end,
+    config = function(_, opts)
+      require("edgy").setup(opts)
+
+      -- Panel focus-resize: when entering an edge panel, grow it;
+      -- when leaving, shrink it back to default size.
+      -- Uses edgy's own edgy_width/edgy_height window vars so the
+      -- layout system handles the actual resize consistently.
+      local Layout = require("edgy.layout")
+
+      -- Focused sizes for each panel (unfocused = the `size` in opts below)
+      local focused_sizes = {
+        nerdtree         = { width = 45 },
+        toggleterm       = { height = 0.5 },
+        opencode_terminal = { width = 0.55 },
+      }
+
+      local panel_filetypes = {}
+      for ft, _ in pairs(focused_sizes) do
+        panel_filetypes[ft] = true
+      end
+
+      local resize_group = vim.api.nvim_create_augroup("EdgePanelResize", { clear = true })
+
+      vim.api.nvim_create_autocmd("WinEnter", {
+        group = resize_group,
+        callback = function()
+          vim.schedule(function()
+            local win = vim.api.nvim_get_current_win()
+            if not vim.api.nvim_win_is_valid(win) then return end
+            local buf = vim.api.nvim_win_get_buf(win)
+            local ft = vim.bo[buf].filetype
+
+            if panel_filetypes[ft] then
+              -- Grow this panel to focused size
+              local sizes = focused_sizes[ft]
+              if sizes.width then
+                local w = sizes.width
+                if w < 1 then w = math.floor(vim.o.columns * w) end
+                vim.w[win].edgy_width = w
+              end
+              if sizes.height then
+                local h = sizes.height
+                if h < 1 then h = math.floor(vim.o.lines * h) end
+                vim.w[win].edgy_height = h
+              end
+              Layout.update()
+            end
+          end)
+        end,
+        desc = "Grow focused edge panel",
+      })
+
+      vim.api.nvim_create_autocmd("WinLeave", {
+        group = resize_group,
+        callback = function()
+          local win = vim.api.nvim_get_current_win()
+          if not vim.api.nvim_win_is_valid(win) then return end
+          local buf = vim.api.nvim_win_get_buf(win)
+          local ft = vim.bo[buf].filetype
+
+          if panel_filetypes[ft] then
+            -- Reset to default size (clear overrides)
+            vim.w[win].edgy_width = nil
+            vim.w[win].edgy_height = nil
+            Layout.update()
+          end
+        end,
+        desc = "Shrink unfocused edge panel to default",
+      })
+    end,
+    opts = {
+      animate = { enabled = false },
+      wo = {
+        winfixwidth = true,
+        winfixheight = true,
+      },
+      left = {
+        { ft = "nerdtree", size = { width = 30 } },
+      },
+      bottom = {
+        {
+          ft = "toggleterm",
+          size = { height = 0.3 },
+          filter = function(buf, win)
+            return vim.api.nvim_win_get_config(win).relative == ""
+          end,
+        },
+        { ft = "qf", title = "QuickFix" },
+      },
+      right = {
+        {
+          ft = "opencode_terminal",
+          title = "OpenCode",
+          size = { width = 0.35 },
+        },
+      },
+    },
+    keys = {
+      { "<leader>el", function() require("edgy").toggle("left") end, desc = "Toggle left panel" },
+      { "<leader>eb", function() require("edgy").toggle("bottom") end, desc = "Toggle bottom panel" },
+      { "<leader>er", function() require("edgy").toggle("right") end, desc = "Toggle right panel" },
+    },
   },
 
   -- File manager - nvim-tree (disabled)
@@ -122,12 +268,13 @@ return {
     end
   },
 
-  -- Terminal
+  -- Terminal (edgy.nvim pins it to bottom)
   {
     "akinsho/toggleterm.nvim",
     cmd = { "ToggleTerm", "TermExec" },
     keys = {
-      { "<Leader>c", "<cmd>ToggleTerm<CR>", desc = "Toggle terminal" },
+      { "<Leader>c", desc = "Toggle terminal" },
+      { "<C-t>", desc = "Toggle terminal" },
     },
     config = function()
       require('modules/terminal')
@@ -157,7 +304,7 @@ return {
   • gD - Go to declaration           • gi - Go to implementation  
   • K - Show hover documentation     • <space>rn - Rename symbol
   • <space>ca - Code actions         • <space>f - Format document
-  • <C-k> - Signature help           • <space>D - Type definition
+  • <leader>k - Signature help        • <space>D - Type definition
   
   🩺 Diagnostics:
   • <space>e - Show line diagnostics • [d/]d - Previous/next diagnostic
@@ -276,117 +423,97 @@ return {
     end
   },
 
+  -- OpenCode - AI coding assistant (nickjvandyke/opencode.nvim)
+  -- edgy.nvim pins this to the right edge via ft=opencode_terminal
   {
-    "yetone/avante.nvim",
-    event = "VeryLazy",
-    build = "make",
-    version = false,
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-      "nvim-tree/nvim-web-devicons",
-      "stevearc/dressing.nvim",
-      "nvim-telescope/telescope.nvim",
-      "hrsh7th/nvim-cmp",
-      {
-        "HakonHarnes/img-clip.nvim",
-        event = "VeryLazy",
-        opts = {
-          default = {
-            embed_image_as_base64 = false,
-            prompt_for_file_name = false,
-            drag_and_drop = {
-              insert_mode = true,
-            },
-            use_absolute_path = true,
-          },
-        },
-      },
-      {
-        'MeanderingProgrammer/render-markdown.nvim',
-        opts = {
-          file_types = { "markdown", "Avante" },
-        },
-        ft = { "markdown", "Avante" },
-      },
-    },
+    "nickjvandyke/opencode.nvim",
+    version = "*",
     config = function()
-      require('avante').setup({
-        -- Use claude-code as the default provider (via ACP)
-        provider = "codex",
+      -- Tag opencode terminal buffers so edgy.nvim can route them
+      local function tag_opencode_buf()
+        for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+          local buf = vim.api.nvim_win_get_buf(win)
+          if vim.bo[buf].buftype == "terminal" then
+            local name = vim.api.nvim_buf_get_name(buf)
+            if name:match("opencode") and vim.bo[buf].filetype ~= "opencode_terminal" then
+              vim.bo[buf].filetype = "opencode_terminal"
+            end
+          end
+        end
+      end
 
-        -- Native provider configurations (fallback option)
-        --providers = {
-        --  bedrock = {
-        --    model = "jp.anthropic.claude-sonnet-4-5-20250929-v1:0",
-        --    aws_profile = "paypay-claude-cli-sso",
-        --    aws_region = "ap-northeast-1",
-        --    timeout = 30000, -- Timeout in milliseconds
-        --  },
-        --},
+      -- Force the opencode TUI to redraw after window resize
+      local function redraw_opencode_terminal()
+        for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+          local buf = vim.api.nvim_win_get_buf(win)
+          if vim.bo[buf].filetype == "opencode_terminal" then
+            local job_id = vim.b[buf].terminal_job_id
+            if job_id then
+              -- Notify the terminal process of new dimensions via SIGWINCH
+              local width = vim.api.nvim_win_get_width(win)
+              local height = vim.api.nvim_win_get_height(win)
+              pcall(vim.fn.jobresize, job_id, width, height)
+            end
+            return
+          end
+        end
+      end
 
-        -- ACP provider configurations
-        acp_providers = {
-          ["codex"] = {
-            command = "npx",
-            args = { "@zed-industries/codex-acp" },
-            env = {
-              NODE_NO_WARNINGS = "1",
-            },
-          },
-          ["claude-code"] = {
-            command = "npx",
-            args = { "@zed-industries/claude-code-acp" },
-            env = {
-              NODE_NO_WARNINGS = "1",
-              -- Use Bedrock instead of direct API
-              CLAUDE_CODE_USE_BEDROCK = "1",
-              AWS_REGION = "ap-northeast-1",
-              AWS_PROFILE = "paypay-claude-cli-sso",
-              ANTHROPIC_MODEL="jp.anthropic.claude-sonnet-4-5-20250929-v1:0",
-              ANTHROPIC_SMALL_MODEL="anthropic.claude-3-5-sonnet-20240620-v1:0",
-              ANTHROPIC_DEFAULT_SONNET_MODEL="jp.anthropic.claude-sonnet-4-5-20250929-v1:0",
-            },
-          },
-        },
+      local function ensure_opencode_visible()
+        for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+          local buf = vim.api.nvim_win_get_buf(win)
+          if vim.bo[buf].filetype == "opencode_terminal" then
+            return
+          end
+        end
 
-        -- Behavior settings
-        behaviour = {
-          auto_suggestions = false,
-          auto_set_highlight_group = true,
-          auto_set_keymaps = false, -- Disable default keymaps as requested
-          auto_apply_diff_after_generation = false,
-          support_paste_from_clipboard = true,
-          minimize_diff = true,
-          enable_token_counting = true,
-          auto_add_current_file = true,
-          auto_approve_tool_permissions = true,
-          confirmation_ui_style = "inline_buttons",
-          acp_follow_agent_locations = true,
-        },
+        require("opencode").toggle()
+        vim.schedule(tag_opencode_buf)
+      end
 
-        -- Project-specific instructions file
-        instructions_file = "AGENTS.md",
+      local function add_context_to_opencode_prompt(context_ref)
+        local context = require("opencode.context").new()
 
-        -- Window settings
-        windows = {
-          position = "right",
-          wrap = true,
-          width = 35,
-          sidebar_header = {
-            align = "center",
-            rounded = true,
-          },
-        },
+        ensure_opencode_visible()
+        require("opencode").prompt(context_ref .. " ", { context = context })
+      end
 
-        -- Highlight settings
-        highlights = {
-          diff = {
-            current = "DiffText",
-            incoming = "DiffAdd"
-          },
-        },
+      -- Redraw on window layout changes
+      vim.api.nvim_create_autocmd("WinResized", {
+        callback = function()
+          vim.schedule(redraw_opencode_terminal)
+        end,
       })
+
+      ---@type opencode.Opts
+      vim.g.opencode_opts = {
+        server = {
+          start = function()
+            require("opencode.terminal").start("opencode --port")
+            vim.schedule(tag_opencode_buf)
+          end,
+          toggle = function()
+            local terminal = require("opencode.terminal")
+            if #vim.api.nvim_tabpage_list_wins(0) == 1 then
+              vim.cmd("enew")
+            end
+            terminal.toggle("opencode --port")
+            vim.schedule(tag_opencode_buf)
+          end,
+        },
+      }
+      vim.o.autoread = true
+
+      -- <leader>o prefix (leader=s, so so...)
+      vim.keymap.set("n", "<leader>o", function() add_context_to_opencode_prompt("@buffer") end, { desc = "Add buffer to opencode prompt" })
+      vim.keymap.set("x", "<leader>o", function() add_context_to_opencode_prompt("@this") end, { desc = "Add selection to opencode prompt" })
+      vim.keymap.set({ "n", "t" }, "<leader>oo", function() require("opencode").toggle() end, { desc = "Toggle opencode" })
+      vim.keymap.set({ "n", "x" }, "<leader>oa", function() require("opencode").ask("@this: ", { submit = true }) end, { desc = "Ask opencode" })
+      vim.keymap.set({ "n", "x" }, "<leader>os", function() require("opencode").select() end, { desc = "Select opencode action" })
+
+      -- go operator: send range/selection to opencode (dot-repeatable)
+      vim.keymap.set({ "n", "x" }, "go", function() return require("opencode").operator("@this ") end, { desc = "Send range to opencode", expr = true })
+      vim.keymap.set("n", "goo", function() return require("opencode").operator("@this ") .. "_" end, { desc = "Send line to opencode", expr = true })
     end,
   }
 }
